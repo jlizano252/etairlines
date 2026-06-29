@@ -1433,3 +1433,97 @@
         box-shadow: 0 14px 28px rgba(66, 171, 52, .24);
     }
 }
+
+/* =====================================================
+   CORRECCIÓN RESPONSIVE ETAIRLINES
+   Orden en celular:
+   1. Información principal
+   2. Formulario
+   3. WhatsApp
+   4. Información de vuelo
+===================================================== */
+
+@media (max-width: 991.98px) {
+
+    .boarding-body {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+    }
+
+    /* Permite que los elementos internos de la información se ordenen
+       junto con el formulario sin cambiar el Blade. */
+    .boarding-main {
+        display: contents !important;
+    }
+
+    .boarding-main::after {
+        display: none !important;
+    }
+
+    .ticket-label {
+        order: 1;
+        margin: 22px 18px 0;
+        width: fit-content;
+    }
+
+    .boarding-main h1 {
+        order: 2;
+        margin: 16px 18px 10px;
+    }
+
+    .boarding-intro {
+        order: 3;
+        margin: 0 18px;
+    }
+
+    .career-grid {
+        order: 4;
+        margin: 24px 18px 0;
+    }
+
+    .boarding-side {
+        order: 5;
+        width: 100%;
+        padding: 24px 18px !important;
+    }
+
+    .help-strip {
+        order: 6;
+        margin: 8px 18px 0 !important;
+    }
+
+    .flight-strip {
+        order: 7;
+        margin: 18px 18px 24px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    .ticket-label {
+        margin: 20px 18px 0;
+    }
+
+    .boarding-main h1 {
+        margin: 14px 18px 8px;
+        text-align: center;
+    }
+
+    .boarding-intro {
+        margin: 0 18px;
+        text-align: center;
+    }
+
+    .career-grid {
+        margin: 18px 18px 0;
+    }
+
+    .help-strip {
+        margin: 4px 18px 0 !important;
+    }
+
+    .flight-strip {
+        margin: 16px 18px 22px !important;
+    }
+}
