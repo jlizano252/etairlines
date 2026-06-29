@@ -1,147 +1,244 @@
-# ETAIRLINES - Recolección de datos
+# ETAirlines
 
-Sistema Laravel 9 + Livewire 2 para recolectar datos de interesados, enviar por correo un pase de abordaje estilo ETAIRLINES y administrar/exportar registros y contactos.
+Sistema de inscripción, Test Vocacional y Agendamiento de Matrícula desarrollado con Laravel y Livewire.
 
-## Requisitos
+---
 
-- PHP 8.0.2 o superior
+# Requisitos del proyecto
+
+- PHP 8.2+
 - Composer
-- MySQL/MariaDB
-- Extensiones PHP habituales de Laravel: `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `zip`, `gd` o `imagick` si se agregan imágenes procesadas
-- Node.js solo si se desea recompilar assets. Este proyecto usa CSS público simple y no requiere compilar para funcionar.
+- MySQL
+- Node.js (solo para compilación de assets)
+- Laravel Scheduler
+- Laravel Queue Worker
 
-## Instalación
+---
+
+# Instalación
+
+Clonar el proyecto.
 
 ```bash
 composer install
-cp .env.example .env
+```
+
+Instalar dependencias de frontend.
+
+```bash
+npm install
+npm run build
+```
+
+Crear el archivo `.env` y configurar las variables correspondientes.
+
+Generar la llave de la aplicación.
+
+```bash
 php artisan key:generate
 ```
 
-Configurar base de datos y correo en `.env`.
+Ejecutar las migraciones.
 
 ```bash
-php artisan migrate --seed
-php artisan storage:link
-php artisan optimize:clear
+php artisan migrate --force
 ```
 
-El seeder crea un usuario administrador con las variables:
+Si se desea crear el usuario administrador inicial:
+
+```bash
+php artisan db:seed
+```
+
+---
+
+# Variables importantes del .env
+
+## Aplicación
 
 ```env
-ADMIN_NAME="Administrador ETAI"
-ADMIN_EMAIL="admin@etai.local"
-ADMIN_PASSWORD="password"
+APP_NAME=ETAirlines
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://dominio.com
 ```
 
-Cambiar esos valores antes de ejecutar `php artisan migrate --seed` en producción.
+---
 
-## Acceso
+## Base de datos
 
-Formulario público:
-
-```text
-/
+```env
+DB_CONNECTION=mysql
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
 ```
 
-Panel administrativo:
+---
 
-```text
-/dashboard
-```
+## Cola de trabajos
 
-Login:
-
-```text
-/login
-```
-
-## Correos y colas
-
-El sistema usa Jobs para enviar el correo del pase de abordaje sin bloquear el formulario.
-
-En `.env`:
+El sistema depende de Jobs para el envío de correos.
 
 ```env
 QUEUE_CONNECTION=database
 ```
 
-Ejecutar worker:
+Verificar la existencia de las tablas:
 
-```bash
-php artisan queue:work --tries=3 --timeout=120 --sleep=3
-```
+- jobs
+- failed_jobs
 
-En producción dejar este worker como servicio persistente con Supervisor, systemd o la herramienta del servidor.
+---
 
-Ejemplo Supervisor:
+## Correo
 
-```ini
-[program:etairlines-worker]
-command=php /ruta/proyecto/artisan queue:work --tries=3 --timeout=120 --sleep=3
-directory=/ruta/proyecto
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-redirect_stderr=true
-stdout_logfile=/var/log/etairlines-worker.log
-```
-
-## Variables de correo
-
-Ejemplo para Mailpit/Mailhog local:
+Configurar el SMTP correspondiente.
 
 ```env
 MAIL_MAILER=smtp
-MAIL_HOST=127.0.0.1
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS="info@etai.ac.cr"
-MAIL_FROM_NAME="ETAirlines"
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=
+MAIL_FROM_ADDRESS=
+MAIL_FROM_NAME=
 ```
 
-En producción configurar el SMTP institucional.
+---
 
-## Exportaciones
+## Usuario administrador
 
-Desde el panel administrativo se puede descargar:
+Si se utiliza el Seeder incluido:
 
-- Registros completos
-- Contactos
+```env
+ADMIN_NAME=
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+```
 
-Las exportaciones usan `maatwebsite/excel`.
+---
 
-## Mantenimiento de producción
+# Comandos posteriores al despliegue
 
-Después de cambios de configuración o despliegue:
+Optimizar Laravel.
+
+```bash
+php artisan optimize
+```
+
+Limpiar cachés si fuese necesario.
 
 ```bash
 php artisan optimize:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
 ```
 
-Permisos requeridos de escritura:
+Crear el enlace de almacenamiento.
 
-```text
+```bash
+php artisan storage:link
+```
+
+---
+
+# Queue Worker
+
+El sistema utiliza Jobs para:
+
+- Envío del correo de resultados del Test Vocacional.
+- Envío del pase de abordaje.
+- Envío del correo de cita de matrícula.
+- Recordatorios automáticos de citas.
+
+Debe mantenerse un worker ejecutándose permanentemente.
+
+```bash
+php artisan queue:work
+```
+
+Se recomienda administrarlo mediante Supervisor o un servicio equivalente.
+
+---
+
+# Scheduler
+
+El sistema utiliza el Scheduler de Laravel para ejecutar tareas automáticas.
+
+Debe existir el cron correspondiente.
+
+```bash
+* * * * * php /ruta/proyecto/artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+# Almacenamiento
+
+Los archivos cargados por el administrador se almacenan utilizando el disco configurado en Laravel.
+
+Verificar que exista:
+
+```env
+FILESYSTEM_DISK=public
+```
+
+y ejecutar:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+# Permisos
+
+Asegurar permisos de escritura sobre:
+
+```
 storage/
 bootstrap/cache/
 ```
 
-## Estructura principal
+---
 
-```text
-app/Http/Livewire/Public/EtairlinesForm.php
-app/Http/Livewire/Admin/Dashboard/EtairlinesRegistrationsTable.php
-app/Jobs/SendEtairlinesBoardingPassMailJob.php
-app/Mail/EtairlinesBoardingPassMail.php
-app/Exports/EtairlinesRegistrationsExport.php
-app/Exports/EtairlinesContactsExport.php
-resources/views/mail/etairlines-boarding-pass.blade.php
-resources/views/livewire/public/etairlines-form.blade.php
-resources/views/livewire/admin/dashboard/etairlines-registrations-table.blade.php
-```
+# Funcionalidades automáticas
+
+El sistema realiza automáticamente:
+
+- Registro de estudiantes.
+- Procesamiento del Test Vocacional.
+- Cálculo de afinidades por carrera.
+- Generación de resultados.
+- Envío de correos mediante Jobs.
+- Agendamiento y reprogramación de citas.
+- Recordatorios automáticos de matrícula.
+- Exportación de información a Excel.
+
+---
+
+# Consideraciones
+
+- Nunca ejecutar el sistema utilizando `QUEUE_CONNECTION=sync` en producción.
+- Mantener siempre activo el Queue Worker.
+- Mantener activo el Scheduler de Laravel.
+- Configurar correctamente `APP_URL`, ya que las URLs firmadas utilizadas en los correos dependen de esta variable.
+- Verificar la correcta configuración del servidor SMTP antes de habilitar el acceso público.
+
+---
+
+# Verificación recomendada
+
+Después del despliegue validar:
+
+- Registro de un estudiante.
+- Generación correcta de resultados.
+- Envío de correo de resultados.
+- Envío del pase de abordaje.
+- Agendamiento de una cita.
+- Envío del correo de confirmación de cita.
+- Procesamiento correcto de los Jobs.
+- Ejecución del Scheduler.
+- Exportación de registros desde el panel administrativo.
