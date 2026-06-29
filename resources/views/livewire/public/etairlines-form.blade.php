@@ -2,7 +2,6 @@
 $baseId = $registration?->id ?? 1;
 
 $flight = 'ET' . now()->format('y') . str_pad($baseId, 3, '0', STR_PAD_LEFT);
-
 $gate = 'B-' . str_pad(($baseId % 20) + 1, 2, '0', STR_PAD_LEFT);
 
 $letters = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -26,15 +25,12 @@ if ($month <= 4) {
     @endphp
 
     <div class="etairlines-page etairlines-mobile-first">
-
     <div class="etairlines-shell">
-
         <div class="boarding-card">
 
             {{-- Encabezado --}}
             <div class="boarding-header">
                 <div class="brand-block">
-
                     <div class="brand-logo-box">
                         <img
                             src="{{ asset('images/ivetc-brand-footer.png') }}"
@@ -53,10 +49,9 @@ if ($month <= 4) {
                             TU FUTURO, NUESTRO DESTINO
                         </div>
                     </div>
-
                 </div>
 
-                <div class="plane-badge">
+                <div class="plane-badge" aria-hidden="true">
                     <i class="fas fa-plane"></i>
                 </div>
             </div>
@@ -65,7 +60,6 @@ if ($month <= 4) {
 
                 {{-- Panel principal --}}
                 <div class="boarding-main">
-
                     <div class="ticket-label">PASE DE ABORDAJE</div>
 
                     <h1>RECORRE. DESCUBRE. SELLA TU FUTURO</h1>
@@ -90,7 +84,7 @@ if ($month <= 4) {
 
                     <div class="help-strip">
                         <div class="help-left">
-                            <i class="fab fa-whatsapp"></i>
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
                             <div>
                                 <span>¿Dudas o consultas?</span>
                                 <strong>¡Estamos para ayudarte!</strong>
@@ -132,16 +126,14 @@ if ($month <= 4) {
                             <strong>{{ $departure }}</strong>
                         </div>
                     </div>
-
                 </div>
 
                 {{-- Panel lateral / formulario --}}
                 <div class="boarding-side">
 
                     @if($completed && $registration)
-
                     <div class="success-panel">
-                        <div class="success-icon">
+                        <div class="success-icon" aria-hidden="true">
                             <i class="fas fa-check"></i>
                         </div>
 
@@ -161,6 +153,7 @@ if ($month <= 4) {
                     </div>
 
                     <button
+                        type="button"
                         class="btn btn-navy w-100 rounded-4 mt-3"
                         wire:click="$set('completed', false)">
                         Registrar otra persona
@@ -174,17 +167,15 @@ if ($month <= 4) {
                             Acceso administrativo
                         </a>
                     </div>
-
                     @else
-
                     <div class="form-title">
                         <span>Datos del pasajero</span>
                         <small>Completa la información solicitada</small>
                     </div>
 
-                    <form wire:submit.prevent="submit">
+                    <form wire:submit.prevent="submit" autocomplete="on">
 
-                        <div class="mobile-progress">
+                        <div class="mobile-progress" aria-label="Progreso del formulario">
                             <div class="mobile-progress-item {{ trim($name) !== '' ? 'active' : '' }}">
                                 <i class="fas fa-user"></i>
                             </div>
@@ -209,12 +200,14 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Nombre Completo</label>
+                            <label class="form-label" for="name">Nombre Completo</label>
                             <input
+                                id="name"
                                 type="text"
                                 wire:model.debounce.300ms="name"
                                 class="form-control rounded-4 @error('name') is-invalid @enderror"
-                                placeholder="Nombre completo">
+                                placeholder="Nombre completo"
+                                autocomplete="name">
 
                             @error('name')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -222,12 +215,14 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Colegio de procedencia</label>
+                            <label class="form-label" for="school">Colegio de procedencia</label>
                             <input
+                                id="school"
                                 type="text"
                                 wire:model.defer="school"
                                 class="form-control rounded-4 @error('school') is-invalid @enderror"
-                                placeholder="Nombre del colegio">
+                                placeholder="Nombre del colegio"
+                                autocomplete="organization">
 
                             @error('school')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -235,12 +230,14 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Lugar de residencia</label>
+                            <label class="form-label" for="residence">Lugar de residencia</label>
                             <input
+                                id="residence"
                                 type="text"
                                 wire:model.defer="residence"
                                 class="form-control rounded-4 @error('residence') is-invalid @enderror"
-                                placeholder="Ej. Ciudad Quesada, San Carlos">
+                                placeholder="Ej. Ciudad Quesada, San Carlos"
+                                autocomplete="address-level2">
 
                             @error('residence')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -248,10 +245,9 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Número de teléfono</label>
+                            <label class="form-label" for="phone_local">Número de teléfono</label>
 
                             <div class="phone-combo @error('phone') is-invalid @enderror">
-
                                 <select
                                     wire:model="country_prefix"
                                     class="phone-prefix-select"
@@ -268,12 +264,13 @@ if ($month <= 4) {
                                 </select>
 
                                 <input
+                                    id="phone_local"
                                     type="tel"
                                     wire:model.debounce.300ms="phone_local"
                                     class="phone-local-input"
                                     placeholder="8888-8888"
                                     inputmode="numeric"
-                                    autocomplete="tel"
+                                    autocomplete="tel-national"
                                     maxlength="15"
                                     oninput="formatPhone(this)">
                             </div>
@@ -288,12 +285,14 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Correo electrónico</label>
+                            <label class="form-label" for="email">Correo electrónico</label>
                             <input
+                                id="email"
                                 type="email"
                                 wire:model.defer="email"
                                 class="form-control rounded-4 @error('email') is-invalid @enderror"
-                                placeholder="Para enviar el pase">
+                                placeholder="Para enviar el pase"
+                                autocomplete="email">
 
                             @error('email')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -301,8 +300,9 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Carrera de interés 1</label>
+                            <label class="form-label" for="interest_one">Carrera de interés 1</label>
                             <select
+                                id="interest_one"
                                 wire:model="interest_one"
                                 class="form-select rounded-4 @error('interest_one') is-invalid @enderror">
                                 <option value="">Seleccione una carrera</option>
@@ -320,8 +320,9 @@ if ($month <= 4) {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Carrera de interés 2</label>
+                            <label class="form-label" for="interest_two">Carrera de interés 2</label>
                             <select
+                                id="interest_two"
                                 wire:model.defer="interest_two"
                                 class="form-select rounded-4 @error('interest_two') is-invalid @enderror">
                                 <option value="">Opcional</option>
@@ -370,9 +371,10 @@ if ($month <= 4) {
                             class="btn w-100 rounded-4 fw-bold mt-3 boarding-submit-btn {{ $this->canSubmit ? 'btn-green' : 'btn-locked' }}"
                             type="submit"
                             wire:loading.attr="disabled"
+                            wire:target="submit"
                             @if(!$this->canSubmit) disabled="disabled" @endif>
 
-                            <span wire:loading.remove>
+                            <span wire:loading.remove wire:target="submit">
                                 @if($this->canSubmit)
                                 <i class="fas fa-ticket-alt me-2"></i>
                                 Generar pase de abordaje
@@ -382,12 +384,11 @@ if ($month <= 4) {
                                 @endif
                             </span>
 
-                            <span wire:loading>
+                            <span wire:loading wire:target="submit">
                                 <span class="spinner-border spinner-border-sm me-2"></span>
                                 Guardando...
                             </span>
                         </button>
-
                     </form>
 
                     <div class="text-center mt-4">
@@ -398,17 +399,12 @@ if ($month <= 4) {
                             Acceso administrativo
                         </a>
                     </div>
-
                     @endif
 
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     </div>
 
     <script>
@@ -420,10 +416,7 @@ if ($month <= 4) {
             }
 
             if (phoneValue.length >= 8) {
-                phoneValue =
-                    phoneValue.substring(0, 4) +
-                    '-' +
-                    phoneValue.substring(4);
+                phoneValue = phoneValue.substring(0, 4) + '-' + phoneValue.substring(4);
             }
 
             input.value = phoneValue;

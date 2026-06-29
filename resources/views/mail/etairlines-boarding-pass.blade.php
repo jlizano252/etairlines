@@ -38,6 +38,7 @@ if ($month <= 4) {
     ];
     @endphp
 
+
     <!doctype html>
     <html lang="es">
 
@@ -142,14 +143,20 @@ if ($month <= 4) {
 
                         {{-- HEADER --}}
                         <tr>
-                            <td colspan="2" style="background:#061a44;color:#fff;padding:18px 24px;border-bottom:4px solid #f3c900;">
+                            <td colspan="2" style="background:#01498d;color:#fff;padding:18px 24px;border-bottom:4px solid #f3c900;">
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td class="header-logo-cell" width="170" valign="middle">
-                                            <img
-                                                src="{{ $message->embed(public_path('images/ivetc-brand-footer.png')) }}"
-                                                alt="ETAI"
-                                                style="max-width:145px;height:auto;display:block;">
+                                            <table cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;padding:9px 12px;box-shadow:0 8px 18px rgba(0,0,0,.16);">
+                                                <tr>
+                                                    <td align="center" valign="middle">
+                                                        <img
+                                                            src="{{ $message->embed(public_path('images/ivetc-brand-footer.png')) }}"
+                                                            alt="ETAI"
+                                                            style="max-width:145px;height:auto;display:block;">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
 
                                         <td align="center" valign="middle">
@@ -227,8 +234,18 @@ if ($month <= 4) {
                                 ¡Estamos para ayudarte!
                             </td>
 
-                            <td class="help-cell" align="center" style="padding:13px 16px;border-left:1px solid #00833e;border-right:1px solid #00833e;color:#061a44;font-size:28px;font-weight:900;">
-                                6325 2828
+                            <td class="help-cell"
+                                align="center"
+                                style="
+                                padding:13px 16px;
+                                border-left:1px solid #00833e;
+                                border-right:1px solid #00833e;
+                                color:#061a44;
+                                font-size:28px;
+                                font-weight:900;
+                                white-space:nowrap;
+                            ">
+                                6325&nbsp;2828
                             </td>
 
                             <td class="help-cell" align="center" style="padding:13px;color:#00833e;font-size:15px;font-family:Georgia,serif;font-style:italic;">

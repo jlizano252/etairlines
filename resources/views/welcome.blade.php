@@ -1,5 +1,5 @@
 @extends('layout.public-layout')
 
-@section('content')
+@section('main-content')
     @livewire('public.etairlines-form')
 @endsection
