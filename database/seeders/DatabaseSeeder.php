@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
 
         $users = [
             [
-                'name' => 'Jessica Chaves Chaves',
-                'email' => 'jschaves@etai.ac.cr',
+                'name' => 'Dafne Calvo',
+                'email' => 'dcalvo@iacsa.cr',
                 'password' => 'Etai2026',
             ],
             [
-                'name' => 'Roberto Brenes Delangton',
-                'email' => 'rbrenes@etai.ac.cr',
+                'name' => 'Joselyn Hernández',
+                'email' => 'jhernandez@iacsa.cr',
                 'password' => 'Etai2026',
             ],
             [
@@ -36,23 +36,8 @@ class DatabaseSeeder extends Seeder
                 'password' => 'Etai2026',
             ],
             [
-                'name' => 'Luis Guillermo del Valle',
-                'email' => 'ldelvalle@etai.ac.cr',
-                'password' => 'Etai2026',
-            ],
-            [
-                'name' => 'Andreina Moreira Castro',
-                'email' => 'mmoreira@etai.ac.cr',
-                'password' => 'Etai2026',
-            ],
-            [
-                'name' => 'Anyi Sibaja Ulate',
-                'email' => 'asibaja@etai.ac.cr',
-                'password' => 'Etai2026',
-            ],
-            [
-                'name' => 'José María Blanco',
-                'email' => 'jblanco@etai.ac.cr',
+                'name' => 'Marieth Soto',
+                'email' => 'msoto@iacsa.cr',
                 'password' => 'Etai2026',
             ],
         ];
