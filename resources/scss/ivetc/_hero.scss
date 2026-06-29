@@ -1,0 +1,125 @@
+// Hero...
+.hero {
+    // margin-top: -100px;
+    // height: 100vh;
+    // min-height: 680px;
+    padding-bottom: 100px;
+    width: 100%;
+    background: rgb(17,33,70);
+    background: linear-gradient(45deg, rgba(17,33,70,1) 0%, rgba(35,65,112,1) 100%);
+    position: relative;
+    overflow: hidden;
+
+    .left-squares {
+        position: absolute;
+        opacity: 0.3;
+        top: 0;
+        left: 0;
+    }
+
+    .right-squares {
+        img {
+            transform: rotate(180deg);
+        }
+        position: absolute;
+        opacity: 0.3;
+        top: 0;
+        right: 0;
+    }
+
+    .hero-content {
+        padding-top: 140px;
+        .hero-left-images {
+            .title {
+                max-width: 350px;
+            }
+            .date {
+                max-width: 200px;
+            }
+        }
+        .hero-right-media {
+            .video {
+                width: 100%;
+                margin-top: 20px;
+                .frame_video {
+                    border-radius: 6px;
+                    background-color: black;
+                    border: 3px solid white;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .text {
+                color: white;
+            }
+        }
+    }
+
+    //.hero-bar {
+    //    border-radius: 20px;
+    //    position: relative;
+    //    height: 90px;
+    //    .pill {
+    //        cursor: pointer;
+    //        height: 100px;
+    //        background-color: $ivetc_lightblue;
+    //        font-weight: bold;
+    //        transition: all ease .3s;
+    //        transform: translateY(-5px);
+    //        &:hover {
+    //            background-color: $ivetc_regblue;
+    //            transform: translateY(-5px) scale(1.05);
+    //        }
+    //    }
+    //}
+}
+
+// Media queries...
+@media (min-width: $bp768) {
+    .hero {
+        .hero-content {
+            .hero-left-images {
+                .date {
+                    max-width: 220px;
+                }
+            }
+            .hero-right-media {
+                .video {
+                    margin-top: -20px;
+                    width: 100%;
+                    .frame_video {
+                        width: 100%;
+                        height: auto;
+                        // max-width: 300px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: $bp960) {
+    .hero {
+        .hero-right-media {
+            .video {
+                margin-top: -20px;
+                width: 90%;
+                .frame_video {
+                    //
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: $bp1024) {
+    .hero {
+        .hero-content {
+            .hero-left-images {
+                .date {
+                    max-width: 250px;
+                }
+            }
+        }
+    }
+}

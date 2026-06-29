@@ -1,0 +1,53 @@
+// text...
+
+//$ivetc_blue: #234170;
+//$ivetc_regblue: #0571cb;
+//$ivetc_lightblue: #5b9acd;
+//$ivetc_darkblue: #112146;
+//$ivetc_orange: #f79420;
+//$ivetc_grey: #6c6c6c;
+//$ivetc_lightgrey: #ebebeb;
+
+.text-etc-blue {
+    color: $ivetc_blue;
+}
+
+.text-etc-regblue {
+    color: $ivetc_regblue;
+}
+
+.text-etc-darkblue {
+    color: $ivetc_darkblue;
+}
+
+.text-etc-lightblue {
+    color: $ivetc_lightblue;
+}
+
+.text-etc-orange {
+    color: $ivetc_lightblue;
+}
+
+.bg-etc-regblue {
+    background-color: $ivetc_regblue;
+    color: whitesmoke;
+    &:hover {
+        background-color: darken($ivetc_regblue, 10) !important;
+    }
+}
+
+.bg-etc-lightblue {
+    background-color: $ivetc_lightblue;
+    color: whitesmoke;
+    &:hover {
+        background-color: darken($ivetc_lightblue, 10) !important;
+    }
+}
+
+.bg-etc-orange {
+    background-color: $ivetc_orange;
+    color: whitesmoke;
+    &:hover {
+        background-color: darken($ivetc_orange, 10) !important;
+    }
+}

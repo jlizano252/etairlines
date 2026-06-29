@@ -1,0 +1,24 @@
+//
+// Overwrite...
+.mdev-aside{
+    .nav-item {
+        margin-bottom: 2px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: all ease .3s;
+        &:hover {
+            background-color: $mdev-yellow;
+            padding: 6px 14px;
+        }
+        .nav-link {
+            .nav-link-text {
+                color: lighten(black, 20%);
+            }
+        }
+    }
+
+    .active {
+        background-color: lighten($mdev-yellow, 10%);
+        padding: 6px 10px;
+    }
+}

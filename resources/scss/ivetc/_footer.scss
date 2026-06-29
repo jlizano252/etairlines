@@ -1,0 +1,22 @@
+// footer
+.footer {
+    background-color: rgba(0,0,0,.3);
+    .footer-menu {
+        .menu-item {
+            transition: all ease .3s;
+            &:hover {
+                color: orange;
+                transform: translateY(-5px);
+            }
+        }
+    }
+}
+
+.footer-border {
+    z-index: 1;
+    position: relative;
+    width: 100%;
+    height: 15px;
+    background-color: black;
+    opacity: .8;
+}

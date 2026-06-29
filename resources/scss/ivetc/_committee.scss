@@ -1,0 +1,85 @@
+//
+.committee {
+    padding: 80px 0 20px 0;
+    color: $ivetc_grey;
+    .title {
+        color: $ivetc_regblue;
+        font-weight: bold;
+    }
+
+    .member-container {
+        // box-sizing: border-box;
+        margin: 0 50px;
+        width: 170px;
+        height: 180px;
+        //background-color: lightskyblue;
+        padding: 10px 15px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        .sq {
+            position: absolute;
+            z-index: 1;
+        }
+        .squ1 {
+            @extend .sq;
+            width: 40px;
+            height: 40px;
+            top: 0;
+            right: 10px;
+            background-color: rgba(30, 90, 212, 0.47);
+        }
+        .squ2 {
+            @extend .sq;
+            width: 30px;
+            height: 30px;
+            top: 20px;
+            right: 0;
+            background-color: rgba(240, 141, 12, 0.47);
+        }
+        .squ3 {
+            @extend .sq;
+            width: 40px;
+            height: 40px;
+            bottom: 0;
+            left: 10px;
+            background-color: rgba(240, 141, 12, 0.47);
+        }
+        .squ4 {
+            @extend .sq;
+            width: 30px;
+            height: 30px;
+            bottom: 20px;
+            left: 0;
+            background-color: rgba(30, 90, 212, 0.47);
+        }
+        .member-image {
+            width: 100%;
+            height: 100%;
+            //background-color: darkblue;
+            border-radius: 10px;
+            overflow: hidden;
+            img {
+                transform: scale(1.35) translateY(5px);
+            }
+        }
+    }
+
+    .member-user {
+        p { font-size: .8rem }
+    }
+
+    .slick-prev:before, .slick-next:before {
+        font-family: 'slick';
+        font-size: 30px;
+        line-height: 1;
+        opacity: .50;
+        color: black;
+    }
+
+    .slick-dots li button:before {
+        font-size: 10px;
+    }
+}
+
+

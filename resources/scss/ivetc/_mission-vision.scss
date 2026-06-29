@@ -1,0 +1,44 @@
+.mission {
+    margin-top: -80px;
+    padding: 20px 0 0 0;
+    color: $ivetc_grey;
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    .title {
+        color: $ivetc_orange;
+    }
+
+    .img-container {
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 200px;
+        }
+    }
+
+    .video {
+        width: 100%;
+        margin-top: 20px;
+        .frame_video {
+            border-radius: 6px;
+            background-color: black;
+            border: 3px solid white;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+}
+
+@media (min-width: $bp1200) {
+    .mission {
+        padding: 100px 0 0 0;
+        .img-container {
+            img {
+                max-width: 400px;
+            }
+            border-right: 1px solid rgba(0,0,0,.08);
+        }
+    }
+}

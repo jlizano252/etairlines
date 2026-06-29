@@ -1,0 +1,15 @@
+// General
+* {
+    // font-family: 'Slabo 27px', serif;
+}
+
+body {
+    position: relative;
+}
+
+.social-icon {
+    transition: all ease .3s;
+    &:hover {
+        transform: scale(1.1);
+    }
+}

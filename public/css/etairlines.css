@@ -1,0 +1,1327 @@
+:root {
+    --etai-blue: #01498d;
+    --etai-green: #42ab34;
+    --etai-yellow: #fcd841;
+    --etai-navy: #063a67;
+    --etai-light: #f3f7fb;
+    --etai-dark: #102033;
+}
+
+/* ================================
+   BASE PÚBLICA
+================================ */
+
+.etairlines-page {
+    min-height: 100vh;
+    padding: 28px 14px;
+    background:
+        radial-gradient(circle at 12% 15%, rgba(252, 216, 65, .22), transparent 24%),
+        radial-gradient(circle at 85% 20%, rgba(66, 171, 52, .18), transparent 28%),
+        linear-gradient(135deg, #eef5fb 0%, #ffffff 48%, #f5fbf3 100%);
+}
+
+.etairlines-shell {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.boarding-card {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(1, 73, 141, .18);
+}
+
+.boarding-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, rgba(1, 73, 141, .06), transparent 35%),
+        repeating-linear-gradient(90deg,
+            transparent 0,
+            transparent 26px,
+            rgba(1, 73, 141, .035) 27px);
+}
+
+.boarding-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, var(--etai-blue), var(--etai-navy));
+    color: #ffffff;
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.brand-logo-box {
+    width: 135px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 9px 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+    flex: 0 0 auto;
+}
+
+.brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.brand-divider {
+    width: 2px;
+    height: 54px;
+    background: rgba(255, 255, 255, .35);
+    border-radius: 999px;
+    flex: 0 0 auto;
+}
+
+.brand-copy {
+    min-width: 0;
+}
+
+.airline-title {
+    font-size: clamp(1.6rem, 3vw, 2.7rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.airline-title span {
+    color: var(--etai-yellow);
+}
+
+.airline-subtitle {
+    margin-top: 7px;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .22em;
+    color: rgba(255, 255, 255, .9);
+}
+
+.plane-badge {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .22);
+    flex: 0 0 auto;
+}
+
+.plane-badge i {
+    font-size: 1.65rem;
+    transform: rotate(-18deg);
+    color: var(--etai-yellow);
+}
+
+.boarding-body {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(340px, .85fr);
+}
+
+.boarding-main {
+    position: relative;
+    padding: 34px 34px 30px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(247, 250, 252, .96)),
+        linear-gradient(135deg, rgba(1, 73, 141, .05), rgba(66, 171, 52, .05));
+}
+
+.boarding-main::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    right: -1px;
+    bottom: 24px;
+    border-right: 2px dashed rgba(1, 73, 141, .25);
+}
+
+.ticket-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(252, 216, 65, .24);
+    color: var(--etai-blue);
+    font-weight: 900;
+    letter-spacing: .12em;
+    font-size: .78rem;
+}
+
+.boarding-main h1 {
+    margin: 18px 0 10px;
+    max-width: 760px;
+    color: var(--etai-blue);
+    font-size: clamp(2rem, 4.5vw, 4.2rem);
+    font-weight: 950;
+    line-height: .95;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+}
+
+.boarding-intro {
+    max-width: 720px;
+    color: #5d6b7b;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* ================================
+   CARRERAS
+================================ */
+
+.career-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.career-pill {
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
+    transition: .25s ease;
+}
+
+.career-pill:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 35px rgba(1, 73, 141, .12);
+}
+
+.career-image {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+}
+
+.career-pill span {
+    color: var(--etai-blue);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+/* ================================
+   BLOQUES INFORMATIVOS
+================================ */
+
+.help-strip {
+    display: grid;
+    grid-template-columns: 1.3fr auto 1fr;
+    align-items: center;
+    gap: 18px;
+    margin-top: 28px;
+    padding: 18px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--etai-green), #2f8f27);
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(66, 171, 52, .22);
+}
+
+.help-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+}
+
+.help-left i {
+    font-size: 2rem;
+}
+
+.help-left span,
+.help-left strong {
+    display: block;
+}
+
+.help-phone {
+    padding: 8px 15px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .18);
+    font-size: 1.35rem;
+    font-weight: 950;
+    letter-spacing: .03em;
+    white-space: nowrap;
+}
+
+.help-script {
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    font-size: 1.25rem;
+    line-height: 1.05;
+    text-align: right;
+}
+
+.flight-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    overflow: hidden;
+    margin-top: 24px;
+    border-radius: 20px;
+    border: 1px solid #e8eef5;
+    background: #ffffff;
+}
+
+.flight-strip div {
+    padding: 14px 12px;
+    border-right: 1px dashed #d6e0ea;
+}
+
+.flight-strip div:last-child {
+    border-right: 0;
+}
+
+.flight-strip small {
+    display: block;
+    color: #7b8794;
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .09em;
+}
+
+.flight-strip strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--etai-blue);
+    font-size: .86rem;
+    font-weight: 900;
+}
+
+/* ================================
+   FORMULARIO
+================================ */
+
+.boarding-side {
+    padding: 30px;
+    background: linear-gradient(180deg, #ffffff, #f8fbff);
+}
+
+.form-title {
+    margin-bottom: 18px;
+}
+
+.form-title span {
+    display: block;
+    color: var(--etai-blue);
+    font-size: 1.25rem;
+    font-weight: 950;
+}
+
+.form-title small {
+    color: #6b7787;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 13px;
+}
+
+.form-label {
+    margin-bottom: 6px;
+    color: var(--etai-blue);
+    font-size: .84rem;
+    font-weight: 900;
+}
+
+.form-control,
+.form-select {
+    min-height: 46px;
+    border: 1px solid #dfe8f2;
+    box-shadow: none !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--etai-green);
+    box-shadow: 0 0 0 .2rem rgba(66, 171, 52, .14) !important;
+}
+
+/* ================================
+   TELÉFONO PROPIO CON BANDERA
+================================ */
+
+.phone-combo {
+    min-height: 48px;
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    overflow: hidden;
+    border: 1px solid #dfe8f2;
+    border-radius: 18px;
+    background: #ffffff;
+    transition: .2s ease;
+}
+
+.phone-combo:focus-within {
+    border-color: var(--etai-green);
+    box-shadow: 0 0 0 .2rem rgba(66, 171, 52, .14);
+}
+
+.phone-prefix-select {
+    min-width: 0;
+    border: 0;
+    border-right: 1px solid #dfe8f2;
+    background: rgba(1, 73, 141, .06);
+    color: var(--etai-blue);
+    font-weight: 900;
+    font-size: .9rem;
+    padding: 0 8px;
+    outline: none;
+}
+
+.phone-local-input {
+    min-width: 0;
+    border: 0;
+    outline: none;
+    padding: 0 14px;
+    color: var(--etai-dark);
+    font-size: 16px;
+}
+
+.phone-local-input::placeholder {
+    color: #8a97a8;
+}
+
+.phone-combo.is-invalid {
+    border-color: #dc3545;
+}
+
+/* ================================
+   CUPÓN / ACEPTACIÓN / BOTONES
+================================ */
+
+.coupon-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255, 255, 255, .45), transparent 22%),
+        linear-gradient(135deg, var(--etai-yellow), #ffec78);
+    color: var(--etai-blue);
+    border: 2px dashed rgba(1, 73, 141, .35);
+}
+
+.coupon-box span {
+    display: block;
+    font-size: .7rem;
+    font-weight: 950;
+    letter-spacing: .12em;
+}
+
+.coupon-box strong {
+    display: block;
+    font-size: 2.5rem;
+    line-height: .9;
+    font-weight: 1000;
+}
+
+.coupon-box em {
+    display: block;
+    font-style: normal;
+    font-size: .8rem;
+    font-weight: 950;
+}
+
+.coupon-box small {
+    color: #24486d;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.consent-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #5d6b7b;
+}
+
+.consent-check .form-check-input {
+    margin-top: .25rem;
+}
+
+.btn-green {
+    min-height: 48px;
+    background: linear-gradient(135deg, var(--etai-green), #2f8f27);
+    border: 0;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(66, 171, 52, .22);
+}
+
+.btn-green:hover {
+    color: #ffffff;
+    filter: brightness(.96);
+}
+
+.btn-navy {
+    min-height: 48px;
+    background: var(--etai-blue);
+    border: 0;
+    color: #ffffff;
+}
+
+.btn-navy:hover {
+    color: #ffffff;
+    filter: brightness(.95);
+}
+
+.boarding-submit-btn {
+    min-height: 50px;
+    transition: .25s ease;
+}
+
+.btn-locked,
+.btn-locked:hover {
+    background: #e9eef5 !important;
+    color: #7b8794 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+}
+
+.btn:disabled {
+    opacity: .58;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+    filter: grayscale(.1);
+}
+
+/* ================================
+   PROGRESO MÓVIL
+================================ */
+
+.mobile-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding: 10px 12px;
+    border-radius: 18px;
+    background: #f6f9fc;
+    border: 1px solid #e8eef5;
+}
+
+.mobile-progress-item {
+    width: 31px;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e9eef5;
+    color: #8492a6;
+    font-size: .8rem;
+    flex: 0 0 auto;
+    transition: .25s ease;
+}
+
+.mobile-progress-item.active {
+    background: var(--etai-green);
+    color: #ffffff;
+    box-shadow: 0 8px 16px rgba(66, 171, 52, .22);
+}
+
+.mobile-progress-line {
+    height: 3px;
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 999px;
+    background: #dfe8f2;
+}
+
+/* ================================
+   ÉXITO
+================================ */
+
+.success-panel {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 28px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(66, 171, 52, .12), rgba(1, 73, 141, .08));
+    border: 1px solid rgba(66, 171, 52, .2);
+}
+
+.success-icon {
+    width: 74px;
+    height: 74px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--etai-green);
+    color: #ffffff;
+    font-size: 2rem;
+    box-shadow: 0 16px 30px rgba(66, 171, 52, .25);
+}
+
+.success-panel h3 {
+    color: var(--etai-blue);
+    font-weight: 950;
+}
+
+.success-panel p {
+    color: #506070;
+}
+
+.admin-access-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b8794;
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-access-link:hover {
+    color: var(--etai-blue);
+    text-decoration: underline;
+}
+
+/* ================================
+   PANEL ADMINISTRATIVO
+================================ */
+
+.etairlines-body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(252, 216, 65, .22), transparent 28%),
+        radial-gradient(circle at top right, rgba(66, 171, 52, .18), transparent 25%),
+        linear-gradient(135deg, #eef5fb 0%, #ffffff 45%, #f5fbf3 100%);
+}
+
+.text-navy {
+    color: var(--etai-blue) !important;
+}
+
+.admin-shell {
+    width: min(1280px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 24px 0;
+}
+
+.admin-topbar {
+    position: sticky;
+    top: 14px;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, .93);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(1, 73, 141, .08);
+    border-radius: 24px;
+    box-shadow: 0 18px 45px rgba(1, 73, 141, .12);
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.admin-logo-box {
+    width: 150px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 14px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 22px rgba(1, 73, 141, .12);
+    flex: 0 0 auto;
+}
+
+.admin-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.admin-brand-divider {
+    width: 2px;
+    height: 48px;
+    border-radius: 999px;
+    background: linear-gradient(180deg,
+            var(--etai-blue),
+            var(--etai-green),
+            var(--etai-yellow));
+    opacity: .9;
+    flex: 0 0 auto;
+}
+
+.admin-brand-text {
+    min-width: 0;
+}
+
+.admin-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 3px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(1, 73, 141, .08);
+    color: var(--etai-blue);
+    font-size: .68rem;
+    font-weight: 950;
+    letter-spacing: .12em;
+}
+
+.admin-brand-text h5 {
+    margin: 0;
+    color: var(--etai-blue);
+    font-size: 1.35rem;
+    font-weight: 950;
+    line-height: 1.1;
+}
+
+.admin-brand-text small {
+    color: #6b7787;
+    font-weight: 650;
+}
+
+.admin-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+.admin-soft-btn,
+.admin-logout-btn {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    padding: 9px 16px;
+    font-weight: 850;
+    border: 0;
+    text-decoration: none;
+}
+
+.admin-soft-btn {
+    background: rgba(1, 73, 141, .08);
+    color: var(--etai-blue);
+}
+
+.admin-soft-btn:hover {
+    background: rgba(1, 73, 141, .13);
+    color: var(--etai-blue);
+}
+
+.admin-logout-btn {
+    background: linear-gradient(135deg, var(--etai-blue), var(--etai-navy));
+    color: #ffffff;
+    box-shadow: 0 10px 22px rgba(1, 73, 141, .18);
+}
+
+.admin-logout-btn:hover {
+    color: #ffffff;
+    filter: brightness(.95);
+}
+
+.kpi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 108px;
+    padding: 20px;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #eef2f7;
+    box-shadow: 0 12px 28px rgba(1, 73, 141, .07);
+}
+
+.kpi small {
+    color: #7b8794;
+    font-weight: 850;
+    letter-spacing: .04em;
+}
+
+.kpi strong {
+    margin-top: 4px;
+    color: var(--etai-blue);
+    font-size: 2rem;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.kpi.green strong {
+    color: var(--etai-green);
+}
+
+.kpi.yellow strong {
+    color: #d6a700;
+}
+
+.institutional-bar {
+    height: 7px;
+    background: linear-gradient(90deg,
+            var(--etai-blue),
+            var(--etai-green),
+            var(--etai-yellow));
+}
+
+/* ================================
+   ETAIRLINES - RESPONSIVE MOBILE
+================================ */
+
+@media (max-width: 768px) {
+
+    .etairlines-page {
+        padding: 12px;
+        min-height: 100vh;
+    }
+
+    .etairlines-shell {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .boarding-card {
+        border-radius: 22px;
+        overflow: hidden;
+    }
+
+    .boarding-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+        padding: 20px 16px;
+    }
+
+    .brand-block {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .brand-logo-box {
+        width: 120px;
+    }
+
+    .brand-logo {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .brand-divider {
+        width: 70px;
+        height: 2px;
+    }
+
+    .airline-title {
+        font-size: 1.6rem;
+        line-height: 1;
+    }
+
+    .airline-subtitle {
+        font-size: .72rem;
+        letter-spacing: 1px;
+    }
+
+    .plane-badge {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+    }
+
+    .boarding-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .boarding-main,
+    .boarding-side {
+        width: 100%;
+        padding: 22px 16px;
+    }
+
+    .ticket-label {
+        display: inline-block;
+        font-size: .7rem;
+        margin-bottom: 10px;
+    }
+
+    .boarding-main h1 {
+        font-size: 1.8rem;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    .boarding-intro {
+        text-align: center;
+        font-size: .95rem;
+        line-height: 1.5;
+    }
+
+    .career-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .career-pill {
+        min-height: 92px;
+        padding: 10px 8px;
+        border-radius: 16px;
+        text-align: center;
+    }
+
+    .career-image {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+    }
+
+    .career-pill span {
+        font-size: .72rem;
+        line-height: 1.15;
+    }
+
+    .help-strip {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .help-left {
+        justify-content: center;
+    }
+
+    .help-phone {
+        font-size: 1.2rem;
+    }
+
+    .help-script {
+        font-size: .8rem;
+    }
+
+    .flight-strip {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    .flight-strip div {
+        text-align: center;
+        padding: 10px 6px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .12);
+    }
+
+    .flight-strip div:nth-child(5) {
+        grid-column: span 2;
+    }
+
+    .flight-strip small {
+        font-size: .62rem;
+    }
+
+    .flight-strip strong {
+        font-size: .85rem;
+        word-break: break-word;
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .form-title span {
+        font-size: 1.25rem;
+    }
+
+    .form-title small {
+        font-size: .82rem;
+    }
+
+    .mobile-progress {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-label {
+        font-size: .85rem;
+        margin-bottom: 6px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        font-size: .95rem;
+    }
+
+    .phone-combo {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .phone-prefix-select {
+        width: 105px;
+        min-width: 105px;
+        font-size: .82rem;
+    }
+
+    .phone-local-input {
+        width: 100%;
+        min-width: 0;
+        font-size: .95rem;
+    }
+
+    .coupon-box {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .coupon-box strong {
+        font-size: 2rem;
+    }
+
+    .consent-check {
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .boarding-submit-btn {
+        min-height: 52px;
+        font-size: .95rem;
+    }
+
+    .success-panel {
+        padding: 24px 16px;
+        text-align: center;
+    }
+
+    .success-icon {
+        margin: 0 auto 12px;
+    }
+
+    .admin-access-link {
+        font-size: .85rem;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .boarding-main,
+    .boarding-side {
+        padding: 20px 12px;
+    }
+
+    .boarding-main h1 {
+        font-size: 1.55rem;
+    }
+
+    .career-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .career-pill {
+        min-height: 88px;
+    }
+
+    .career-pill span {
+        font-size: .68rem;
+    }
+
+    .flight-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .flight-strip div:nth-child(5) {
+        grid-column: span 1;
+    }
+
+    .phone-prefix-select {
+        width: 96px;
+        min-width: 96px;
+    }
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 991.98px) {
+    .boarding-body {
+        grid-template-columns: 1fr;
+    }
+
+    .boarding-main::after {
+        display: none;
+    }
+
+    .boarding-header {
+        align-items: flex-start;
+    }
+
+    .career-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .help-strip {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .help-script {
+        text-align: left;
+    }
+
+    .flight-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flight-strip div:nth-child(2n) {
+        border-right: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-shell {
+        width: min(100% - 18px, 1280px);
+        padding: 12px 0;
+    }
+
+    .admin-topbar {
+        position: static;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+    .admin-brand {
+        align-items: center;
+    }
+
+    .admin-logo-box {
+        width: 116px;
+        height: 52px;
+        border-radius: 15px;
+    }
+
+    .admin-brand-divider {
+        display: none;
+    }
+
+    .admin-brand-text h5 {
+        font-size: 1.15rem;
+    }
+
+    .admin-eyebrow {
+        font-size: .62rem;
+    }
+
+    .admin-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    .admin-actions form,
+    .admin-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .etairlines-page {
+        padding: 12px;
+    }
+
+    .boarding-card {
+        border-radius: 22px;
+    }
+
+    .boarding-header {
+        padding: 14px 16px;
+    }
+
+    .brand-block {
+        gap: 10px;
+    }
+
+    .brand-logo-box {
+        width: 92px;
+        height: 46px;
+        padding: 7px 9px;
+    }
+
+    .brand-divider {
+        display: none;
+    }
+
+    .airline-title {
+        font-size: 1.15rem;
+        letter-spacing: .04em;
+    }
+
+    .airline-subtitle {
+        font-size: .55rem;
+        letter-spacing: .09em;
+    }
+
+    .plane-badge {
+        width: 42px;
+        height: 42px;
+    }
+
+    .boarding-main {
+        padding: 20px 18px;
+    }
+
+    .boarding-side {
+        padding: 20px 18px 24px;
+    }
+
+    .ticket-label {
+        font-size: .68rem;
+        padding: 7px 12px;
+    }
+
+    .boarding-main h1 {
+        font-size: 1.9rem;
+        line-height: 1;
+        margin-top: 14px;
+    }
+
+    .boarding-intro {
+        font-size: .9rem;
+    }
+
+    .career-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .career-pill {
+        min-height: 92px;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        padding: 12px 8px;
+    }
+
+    .career-image {
+        width: 42px !important;
+        height: 42px !important;
+        max-width: 42px !important;
+        max-height: 42px !important;
+    }
+
+    .career-pill span {
+        font-size: .76rem;
+        line-height: 1.15;
+    }
+
+    .help-strip {
+        gap: 10px;
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    .help-phone {
+        width: fit-content;
+        font-size: 1.1rem;
+    }
+
+    .flight-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flight-strip div {
+        padding: 12px 10px;
+        border-right: 0;
+        border-bottom: 1px dashed #d6e0ea;
+    }
+
+    .flight-strip div:last-child {
+        border-bottom: 0;
+    }
+
+    .coupon-box {
+        grid-template-columns: 1fr;
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    .form-control,
+    .form-select,
+    .phone-combo {
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    .phone-combo {
+        grid-template-columns: 108px 1fr;
+    }
+
+    .boarding-submit-btn {
+        position: sticky;
+        bottom: 12px;
+        z-index: 9;
+        min-height: 54px;
+        box-shadow: 0 14px 28px rgba(66, 171, 52, .24);
+    }
+}

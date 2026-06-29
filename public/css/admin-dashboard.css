@@ -1,0 +1,674 @@
+.modal-bar-animated {
+    height: 5px;
+    background: linear-gradient(90deg, #42ab34, #01498d, #eedf35);
+    background-size: 300% 100%;
+    animation: barMove 4s linear infinite;
+}
+
+@keyframes barMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.institutional-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #01498d, #42ab34, #fcd841);
+    background-size: 300% 100%;
+    animation: institutionalBarMove 5s linear infinite;
+}
+
+@keyframes institutionalBarMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.admin-register-card {
+    width: 100%;
+    max-width: none !important;
+}
+
+/* Horarios */
+.hours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.hour-box {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 6px;
+    font-size: .85rem;
+    font-weight: 600;
+    background: #01498d15;
+    color: #01498d;
+    transition: .2s;
+}
+
+.hour-box:hover:not(:disabled) {
+    background: #01498d25;
+    transform: translateY(-2px);
+}
+
+.hour-selected {
+    background: #01498d !important;
+    color: white !important;
+}
+
+.hour-taken {
+    background: #e9ecef !important;
+    color: #adb5bd !important;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+/* Calendario */
+.calendar-day {
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+    background: white !important;
+}
+
+.calendar-day:hover {
+    background: #01498d15 !important;
+    color: #01498d !important;
+}
+
+.calendar-selected {
+    background: #01498d !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Tabs premium */
+.premium-tabs-wrapper {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid rgba(1, 73, 141, .08);
+    border-radius: 24px;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .045);
+}
+
+.premium-tabs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.premium-tabs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+}
+
+.premium-tab {
+    border: 1px solid rgba(1, 73, 141, .08);
+    background: #ffffff;
+    color: #01498d;
+    border-radius: 18px;
+    padding: .7rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    font-weight: 700;
+    font-size: .86rem;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .055);
+    transition: all .22s ease;
+}
+
+.premium-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.premium-tab-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 12px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: #01498d12;
+    color: #01498d;
+}
+
+.premium-tab-text {
+    white-space: nowrap;
+}
+
+.premium-tab.active-blue {
+    background: linear-gradient(135deg, #01498d, #0d63ba);
+    color: #ffffff;
+}
+
+.premium-tab.active-green {
+    background: linear-gradient(135deg, #42ab34, #2f8f26);
+    color: #ffffff;
+}
+
+.premium-tab.active-red {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+    color: #ffffff;
+}
+
+.premium-tab.active-gray {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: #ffffff;
+}
+
+.premium-tab.active-blue .premium-tab-icon,
+.premium-tab.active-green .premium-tab-icon,
+.premium-tab.active-red .premium-tab-icon,
+.premium-tab.active-gray .premium-tab-icon {
+    background: rgba(255, 255, 255, .22);
+    color: #ffffff;
+}
+
+/* Tabla */
+.students-table-scroll {
+    height: 95vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.students-table-scroll::-webkit-scrollbar,
+.appointments-list-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.students-table-scroll::-webkit-scrollbar-thumb,
+.appointments-list-scroll::-webkit-scrollbar-thumb {
+    background: rgba(1, 73, 141, .25);
+    border-radius: 20px;
+}
+
+.students-table-scroll::-webkit-scrollbar-thumb:hover,
+.appointments-list-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(1, 73, 141, .45);
+}
+
+.students-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #01498d !important;
+}
+
+.students-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Estado vacío */
+.empty-state {
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Lateral */
+.dashboard-sidebar {
+    position: sticky;
+    top: 15px;
+    align-self: flex-start;
+    max-height: calc(100vh - 30px);
+}
+
+/* Solo scroll en citas del día */
+.appointments-list-scroll {
+    max-height: 170px;
+    min-height: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .students-table-scroll {
+        height: 70vh;
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-sidebar {
+        position: static;
+        max-height: none;
+    }
+
+    .students-table-scroll {
+        height: 65vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .premium-tabs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .premium-tab {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .students-table-scroll {
+        height: auto;
+        max-height: none;
+    }
+}
+
+.students-table th,
+.students-table td {
+    padding: 16px 14px;
+    vertical-align: middle;
+}
+
+.student-name-cell {
+    min-width: 230px;
+}
+
+.email-cell {
+    max-width: 240px;
+    min-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.affinity-cell {
+    min-width: 220px;
+}
+
+.students-table tbody tr {
+    height: 72px;
+}
+
+.phone-cell {
+    max-width: 135px;
+    width: 135px;
+}
+
+.phone-cell span {
+    display: inline-block;
+    max-width: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* =====================================================
+   MEJORA VISUAL TABLA REGISTROS
+===================================================== */
+
+.students-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.students-table thead th {
+    padding: 18px 18px;
+    font-size: .92rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+    white-space: nowrap;
+}
+
+.students-table th,
+.students-table td {
+    padding: 18px 18px;
+    vertical-align: middle;
+}
+
+.students-table tbody tr {
+    height: 92px;
+}
+
+.students-table tbody td {
+    background: #f7f7f7;
+}
+
+.students-table tbody tr:hover td {
+    background: #f1f7ff;
+}
+
+/* Estudiante */
+.student-name-cell {
+    width: 25%;
+    min-width: 230px;
+}
+
+.student-name-cell button {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Correo */
+.email-cell {
+    width: 23%;
+    min-width: 210px;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Teléfono */
+.phone-cell {
+    width: 145px;
+    min-width: 145px;
+    max-width: 145px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.phone-cell span {
+    display: inline-block;
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Afinidad */
+.affinity-cell {
+    width: 23%;
+    min-width: 210px;
+}
+
+.affinity-cell .fw-semibold {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Cita */
+.appointment-cell {
+    width: 190px !important;
+    min-width: 190px !important;
+    max-width: 190px !important;
+    text-align: center;
+}
+
+.appointment-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 145px;
+}
+
+.appointment-date {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #198754;
+    font-weight: 700;
+    font-size: .88rem;
+    white-space: nowrap;
+}
+
+.appointment-time {
+    color: #6c757d;
+    font-size: .84rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.appointment-badge {
+    margin-top: 6px;
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-scheduled {
+    background: #01498d20;
+    color: #01498d;
+}
+
+.badge-attended {
+    background: #42ab3420;
+    color: #42ab34;
+}
+
+.badge-not-attended {
+    background: #dc354520;
+    color: #dc3545;
+}
+
+.badge-cancelled {
+    background: #6c757d20;
+    color: #6c757d;
+}
+
+.badge-rescheduled {
+    background: #fcd84150;
+    color: #8a6d00;
+}
+
+.badge-default {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+/* Evitar que Bootstrap fuerce tamaños raros */
+.students-table td:last-child,
+.students-table th:last-child {
+    width: 190px !important;
+    min-width: 190px !important;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+
+    .students-table th,
+    .students-table td {
+        padding: 16px 14px;
+    }
+
+    .appointment-cell,
+    .students-table td:last-child,
+    .students-table th:last-child {
+        width: 180px !important;
+        min-width: 180px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .students-table {
+        min-width: 980px;
+    }
+}
+
+.metric-card,
+.metric-panel {
+    background: #ffffff;
+    border: 1px solid rgba(1, 73, 141, .08);
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .055);
+}
+
+.metric-card small {
+    color: #6c757d;
+    font-weight: 700;
+}
+
+.metric-card h3 {
+    color: #01498d;
+    font-size: 2.1rem;
+    font-weight: 800;
+    margin: 6px 0;
+}
+
+.metric-card span {
+    color: #6c757d;
+    font-size: .85rem;
+}
+
+.metric-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: #fff;
+}
+
+.bg-blue {
+    background: #01498d;
+}
+
+.bg-green {
+    background: #42ab34;
+}
+
+.bg-success-soft {
+    background: #2f8f26;
+}
+
+.bg-red {
+    background: #dc3545;
+}
+
+.metric-panel h6 {
+    color: #01498d;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.funnel-row,
+.career-stat,
+.top-school {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.funnel-row span,
+.career-stat span,
+.top-school span {
+    min-width: 130px;
+    font-size: .88rem;
+    color: #495057;
+    font-weight: 600;
+}
+
+.funnel-bar,
+.career-stat>div {
+    flex: 1;
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.funnel-bar div,
+.career-stat>div>div {
+    height: 100%;
+    background: linear-gradient(90deg, #01498d, #42ab34);
+    border-radius: 999px;
+}
+
+.funnel-row strong,
+.career-stat strong,
+.top-school strong {
+    color: #01498d;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.status-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0f2;
+    font-weight: 700;
+    color: #495057;
+}
+
+.status-metric:last-child {
+    border-bottom: none;
+}
+
+.status-metric strong {
+    color: #01498d;
+    font-weight: 800;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.bg-gray {
+    background: #6c757d;
+}
+
+.funnel-row small {
+    min-width: 42px;
+    text-align: right;
+    color: #6c757d;
+    font-weight: 700;
+}
+
+.funnel-bar.danger div {
+    background: linear-gradient(90deg, #dc3545, #f06b78);
+}
+
+.metric-empty {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: #adb5bd;
+    text-align: center;
+}
+
+.metric-empty i {
+    font-size: 2rem;
+}
+
+.badge-confirmed {
+    background: rgba(66, 171, 52, .18);
+    color: #42ab34;
+}
+
+.badge-not-confirmed {
+    background: rgba(220, 53, 69, .12);
+    color: #dc3545;
+}

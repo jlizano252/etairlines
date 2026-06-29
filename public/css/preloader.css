@@ -1,0 +1,80 @@
+/* =========================
+   PRELOADER PREMIUM ETAI
+========================= */
+
+/* Bloquear scroll mientras carga */
+body.loading-page{
+    overflow:hidden !important;
+}
+
+/* Ocultar contenido real */
+body.loading-page main,
+body.loading-page .main,
+body.loading-page .container,
+body.loading-page .content{
+    visibility:hidden;
+}
+
+/* PRELOADER FULL SCREEN */
+.page-preloader{
+    position:fixed !important;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    z-index:999999;
+    
+    background:rgba(255,255,255,.92);
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    text-align:center;
+}
+
+/* Caja interna */
+.preloader-box{
+    width:320px;
+    max-width:90%;
+}
+
+/* Logo */
+.preloader-logo{
+    max-width:180px;
+    margin:0 auto 20px auto;
+    display:block;
+}
+
+/* Spinner */
+.preloader-spinner{
+    width:65px;
+    height:65px;
+    margin:0 auto 18px auto;
+    border-radius:50%;
+    border:4px solid #e9ecef;
+    border-top:4px solid #01498d;
+    border-right:4px solid #42ab34;
+    border-bottom:4px solid #fcd841;
+    animation:spinLoader .9s linear infinite;
+}
+
+/* Texto */
+.preloader-text{
+    display:block;
+    font-size:15px;
+    font-weight:600;
+    color:#01498d;
+}
+
+/* Ocultar */
+.page-preloader.hide{
+    opacity:0;
+    visibility:hidden;
+    transition:.5s ease;
+}
+
+/* Animación */
+@keyframes spinLoader{
+    to{ transform:rotate(360deg); }
+}

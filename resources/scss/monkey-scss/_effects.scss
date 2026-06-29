@@ -1,0 +1,17 @@
+//
+.scale-hover {
+    transition: all ease .2s;
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.rotate-dish {
+    transform-origin: center center;
+    animation: rotateDish infinite 50s linear;
+}
+
+@keyframes rotateDish {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}

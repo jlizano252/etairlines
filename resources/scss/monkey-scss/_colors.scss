@@ -1,0 +1,15 @@
+//
+$mdev-yellow: #fcba03;
+$mdev-black: #1c1c1c;
+
+.text-yellow {
+    color: $mdev-yellow;
+}
+
+.text-light-yellow {
+    color: lighten($mdev-yellow, 30%);
+}
+
+.bg-mdev-black {
+    background-color: $mdev-black;
+}

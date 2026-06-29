@@ -1,0 +1,21 @@
+//
+.info-banner {
+    margin-top: -100px;
+    .hero-bar{
+        border-radius: 20px;
+        position: relative;
+        height: 90px;
+        .pill {
+            cursor: pointer;
+            height: 100px;
+            background-color: $ivetc_lightblue;
+            font-weight: bold;
+            transition: all ease .3s;
+            transform: translateY(-5px);
+            &:hover {
+                background-color: $ivetc_regblue;
+                transform: translateY(-5px) scale(1.05);
+            }
+        }
+    }
+}

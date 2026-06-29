@@ -1,0 +1,31 @@
+// Buttons...
+
+.register_btn {
+    @extend .btn;
+    border-radius: 2px;
+    color: white;
+}
+
+.info_btn {
+    @extend .register_btn;
+    background-color: $ivetc_darkblue;
+    color: white;
+    transition: all ease .3s;
+    &:hover {
+        transform: translateY(-5px);
+        background-color: $ivetc_blue;
+        color: white;
+    }
+}
+
+.reg_btn {
+    @extend .register_btn;
+    background-color: $ivetc_orange;
+    color: white;
+    transition: all ease .3s;
+    &:hover {
+        transform: translateY(-5px);
+        background-color: darkorange;
+        color: white;
+    }
+}

@@ -1,0 +1,67 @@
+// Menu...
+.ivetc-navbar {
+    // background-color: $ivetc_darkblue;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+    position: fixed;
+    background-color: rgba(0,21,35,.5);
+    font-size: 1.1rem;
+    .navbar-collapse {
+        background-color: rgba(0,21,35,.9);
+        border-radius: 10px;
+        padding: 20px 0;
+    }
+    img {
+        width: 100%;
+        max-width: 70px;
+    }
+
+    ul {
+        li{
+            margin-left: 40px;
+            transition: all ease .3s;
+            .nav-link {
+                text-decoration: none;
+                font-weight: bolder;
+                color: darken(orange, 20%) !important;
+            }
+            .active {
+                color: darken(orange, 1%) !important;
+            }
+            &:hover {
+                transform: translateY(-5px);
+                .nav-link {
+                    color: orange !important;
+                }
+            }
+        }
+    }
+}
+
+.shadow-menu {
+    animation: easeToShow ease .5s;
+    background-color: rgba(0,21,35,.9) !important;
+}
+
+// Media queries...
+@media (min-width: $bp768) {
+    .ivetc-navbar {
+        // background-color: rgba($blue-700);
+    }
+}
+
+// Media queries...
+@media (min-width: $bp992) {
+    .ivetc-navbar {
+        background-color: transparent;
+        .navbar-collapse {
+            background-color: transparent;
+        }
+    }
+}
+
+@keyframes easeToShow {
+    0%{ opacity: 0 }
+    100%{ opacity: 1 }
+}
