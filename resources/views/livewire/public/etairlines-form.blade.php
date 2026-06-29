@@ -1,18 +1,40 @@
 @php
 $baseId = $registration?->id ?? 1;
 
-$flight = 'ET' . now()->format('y') . str_pad($baseId, 3, '0', STR_PAD_LEFT);
-$gate = 'B-' . str_pad(($baseId % 20) + 1, 2, '0', STR_PAD_LEFT);
+/*
+|--------------------------------------------------------------------------
+| Datos del pase de abordaje
+|--------------------------------------------------------------------------
+| Se generan con base en el ID para que parezcan aleatorios,
+| pero siempre sean los mismos para la misma persona.
+*/
+
+$flightNumber = (($baseId * 37) % 9000) + 1000;
+$flight = 'ET' . now()->format('y') . $flightNumber;
+
+$gates = [
+'A-01', 'A-02', 'A-03',
+'B-01', 'B-02', 'B-03',
+'C-01', 'C-02', 'C-03',
+];
+
+$gate = $gates[$baseId % count($gates)];
 
 $letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-$seatRow = ($baseId % 30) + 1;
-$seatLetter = $letters[$baseId % 6];
+$seatRow = (($baseId * 7) % 40) + 1;
+$seatLetter = $letters[$baseId % count($letters)];
 $seat = $seatRow . $seatLetter;
+
+/*
+|--------------------------------------------------------------------------
+| Próximo cuatrimestre
+|--------------------------------------------------------------------------
+*/
 
 $month = now()->month;
 $year = now()->year;
 
-if ($month <= 4) {
+    if ($month <= 4) {
     $nextQuarter='II' ;
     } elseif ($month <=8) {
     $nextQuarter='III' ;
@@ -22,7 +44,7 @@ if ($month <= 4) {
     }
 
     $departure=$nextQuarter . ' Cuatrimestre ' . $year;
-    @endphp
+@endphp
 
     <div class="etairlines-page etairlines-mobile-first">
     <div class="etairlines-shell">
@@ -391,13 +413,21 @@ if ($month <= 4) {
                         </button>
                     </form>
 
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-5">
+
                         <a
                             href="{{ route('login') }}"
                             class="admin-access-link">
                             <i class="fas fa-lock me-1"></i>
                             Acceso administrativo
                         </a>
+
+                        <div class="developer-credit mt-3">
+                            Desarrollado por
+                            <strong>Jenhson Lizano Villalobos</strong>
+                            · Ingeniería de Software
+                        </div>
+
                     </div>
                     @endif
 

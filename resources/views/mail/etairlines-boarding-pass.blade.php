@@ -5,11 +5,35 @@ $url = 'https://wa.me/' . $wa . '?text=' . urlencode($text);
 
 $baseId = $registration->id ?? 1;
 
-$flight = 'ET' . now()->format('y') . str_pad($baseId, 3, '0', STR_PAD_LEFT);
-$gate = 'B-' . str_pad(($baseId % 20) + 1, 2, '0', STR_PAD_LEFT);
+/*
+|--------------------------------------------------------------------------
+| Datos del pase de abordaje
+|--------------------------------------------------------------------------
+| Se generan a partir del ID para que cada estudiante tenga un pase único,
+| pero siempre obtenga el mismo vuelo, puerta y asiento.
+*/
+
+$flightNumber = (($baseId * 37) % 9000) + 1000;
+$flight = 'ET' . now()->format('y') . $flightNumber;
+
+$gates = [
+'A-01', 'A-02', 'A-03',
+'B-01', 'B-02', 'B-03',
+'C-01', 'C-02', 'C-03',
+];
+
+$gate = $gates[$baseId % count($gates)];
 
 $letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-$seat = (($baseId % 30) + 1) . $letters[$baseId % 6];
+$seatRow = (($baseId * 7) % 40) + 1;
+$seatLetter = $letters[$baseId % count($letters)];
+$seat = $seatRow . $seatLetter;
+
+/*
+|--------------------------------------------------------------------------
+| Próximo cuatrimestre
+|--------------------------------------------------------------------------
+*/
 
 $month = now()->month;
 $year = now()->year;
@@ -37,7 +61,6 @@ if ($month <= 4) {
     ['name' => 'Biotecnología', 'image' => 'bio.png'],
     ];
     @endphp
-
 
     <!doctype html>
     <html lang="es">

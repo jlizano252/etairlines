@@ -144,89 +144,82 @@
             </div>
 
             {{-- Tabla --}}
-            <div class="table-responsive registrations-table-wrap">
-                <table class="table align-middle registrations-table mb-0">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Estudiante</th>
-                            <th>Contacto</th>
-                            <th>Colegio</th>
-                            <th>Intereses</th>
-                            <th class="text-center">Estado</th>
-                        </tr>
-                    </thead>
+            <div class="registrations-table-wrap">
+                <div class="table-responsive">
+                    <table class="table align-middle registrations-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estudiante</th>
+                                <th>Contacto</th>
+                                <th>Colegio</th>
+                                <th>Intereses</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @forelse($registrations as $r)
-                        <tr>
-                            <td class="text-nowrap">
-                                <strong>{{ $r->created_at->format('d/m/Y') }}</strong>
-                                <br>
-                                <small class="text-muted">
-                                    {{ $r->created_at->format('h:i A') }}
-                                </small>
-                            </td>
+                        <tbody>
+                            @forelse($registrations as $r)
+                            <tr>
+                                <td class="text-nowrap">
+                                    <strong>{{ $r->created_at->format('d/m/Y') }}</strong><br>
+                                    <small class="text-muted">{{ $r->created_at->format('h:i A') }}</small>
+                                </td>
 
-                            <td>
-                                <strong class="text-navy">{{ $r->name }}</strong>
-                                <br>
-                                <small class="text-muted">
-                                    {{ $r->coupon_code }}
-                                </small>
-                            </td>
+                                <td>
+                                    <strong class="text-navy">{{ $r->name }}</strong><br>
+                                    <small class="text-muted">{{ $r->coupon_code }}</small>
+                                </td>
 
-                            <td class="text-nowrap">
-                                <i class="fas fa-phone-alt text-success me-1"></i>
-                                {{ $r->phone ?: '-' }}
-                                <br>
-                                <small class="text-muted">
-                                    <i class="fas fa-envelope me-1"></i>
-                                    {{ $r->email ?: 'Sin correo' }}
-                                </small>
-                            </td>
+                                <td class="text-nowrap">
+                                    <i class="fas fa-phone-alt text-success me-1"></i>
+                                    {{ $r->phone ?: '-' }}<br>
+                                    <small class="text-muted">
+                                        <i class="fas fa-envelope me-1"></i>
+                                        {{ $r->email ?: 'Sin correo' }}
+                                    </small>
+                                </td>
 
-                            <td>
-                                {{ $r->school ?: '-' }}
-                            </td>
+                                <td>{{ $r->school ?: '-' }}</td>
 
-                            <td>
-                                <span class="badge bg-light text-navy rounded-pill px-3 py-2">
-                                    {{ $r->interest_one ?: '-' }}
-                                </span>
+                                <td>
+                                    <span class="badge bg-light text-navy rounded-pill px-3 py-2">
+                                        {{ $r->interest_one ?: '-' }}
+                                    </span>
 
-                                @if($r->interest_two)
-                                <br>
-                                <span class="badge bg-light text-success rounded-pill px-3 py-2 mt-1">
-                                    {{ $r->interest_two }}
-                                </span>
-                                @endif
-                            </td>
+                                    @if($r->interest_two)
+                                    <br>
+                                    <span class="badge bg-light text-success rounded-pill px-3 py-2 mt-1">
+                                        {{ $r->interest_two }}
+                                    </span>
+                                    @endif
+                                </td>
 
-                            <td class="text-center">
-                                @if($r->email_sent_at)
-                                <span class="badge rounded-pill bg-success px-3 py-2">
-                                    <i class="fas fa-check-circle me-1"></i>
-                                    Enviado
-                                </span>
-                                @else
-                                <span class="badge rounded-pill bg-secondary px-3 py-2">
-                                    <i class="fas fa-clock me-1"></i>
-                                    Pendiente
-                                </span>
-                                @endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-5">
-                                <i class="fas fa-inbox fa-2x mb-3 d-block"></i>
-                                No hay registros.
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                                <td class="text-center">
+                                    @if($r->email_sent_at)
+                                    <span class="badge rounded-pill bg-success px-3 py-2">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        Enviado
+                                    </span>
+                                    @else
+                                    <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                        <i class="fas fa-clock me-1"></i>
+                                        Pendiente
+                                    </span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-5">
+                                    <i class="fas fa-inbox fa-2x mb-3 d-block"></i>
+                                    No hay registros.
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="mt-4">

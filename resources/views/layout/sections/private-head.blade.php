@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('css/etairlines.css') }}">
     
     <!--    Document Title-->
-    <title>{{ $pageTitle ?? 'FormETAI | Admin' }}</title>
+    <title>{{ $pageTitle ?? 'Torre de control | ETAIrlines' }}</title>
 
     {{-- Livewire --}}
     @livewireStyles
