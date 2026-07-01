@@ -34,17 +34,23 @@ $seat = $seatRow . $seatLetter;
 $month = now()->month;
 $year = now()->year;
 
-    if ($month <= 4) {
-    $nextQuarter='II' ;
-    } elseif ($month <=8) {
-    $nextQuarter='III' ;
-    } else {
+// Hasta finalizar el 2026 siempre mostrar I Cuatrimestre 2027
+if ($year < 2027) {
     $nextQuarter='I' ;
-    $year++;
+    $year=2027;
+    } else {
+
+    if ($month <=4) {
+    $nextQuarter='I' ;
+    } elseif ($month <=8) {
+    $nextQuarter='II' ;
+    } else {
+    $nextQuarter='III' ;
+    }
     }
 
     $departure=$nextQuarter . ' Cuatrimestre ' . $year;
-@endphp
+    @endphp
 
     <div class="etairlines-page etairlines-mobile-first">
     <div class="etairlines-shell">
