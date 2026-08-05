@@ -1527,3 +1527,452 @@
         margin: 16px 18px 22px !important;
     }
 }
+
+/* =====================================================
+   MODAL RECORDATORIO ETAIRLINES
+===================================================== */
+
+.reminder-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    background: rgba(6, 58, 103, .55);
+    backdrop-filter: blur(8px);
+}
+
+
+.reminder-panel {
+    width: min(100%, 1000px);
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+    border-radius: 28px;
+    overflow: hidden;
+
+    box-shadow:
+        0 30px 80px rgba(1, 73, 141, .35);
+
+    animation: reminderSlide .25s ease;
+}
+
+
+/* ==========================
+   HEADER
+========================== */
+
+.reminder-header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 26px 30px;
+
+    background:
+        linear-gradient(135deg,
+            var(--etai-blue),
+            var(--etai-navy));
+
+    color: white;
+}
+
+
+.reminder-header h4 {
+    color: white !important;
+}
+
+
+.reminder-close-btn {
+
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .15);
+
+    color: white;
+
+    font-size: 18px;
+
+    transition: .2s ease;
+}
+
+
+.reminder-close-btn:hover {
+
+    background: rgba(255, 255, 255, .30);
+
+    transform: rotate(90deg);
+
+}
+
+
+/* ==========================
+   BODY
+========================== */
+
+.reminder-body {
+
+    padding: 28px 30px;
+
+    overflow-y: auto;
+
+}
+
+
+.reminder-body label {
+
+    color: var(--etai-blue);
+
+}
+
+
+/* ==========================
+   LISTA DESTINATARIOS
+========================== */
+
+.recipient-list {
+
+    max-height: 380px;
+
+    overflow-y: auto;
+
+    border-radius: 18px;
+
+    border: 1px solid #e8eef5;
+
+    background: #f9fbfd;
+
+}
+
+
+.recipient-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 16px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #edf2f7;
+
+    transition: .2s ease;
+
+}
+
+
+.recipient-item:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+.recipient-item:hover {
+
+    background: rgba(1, 73, 141, .05);
+
+}
+
+
+.recipient-item input {
+
+    width: 18px;
+
+    height: 18px;
+
+}
+
+
+.recipient-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.recipient-info strong {
+
+    color: var(--etai-blue);
+
+    font-weight: 850;
+
+}
+
+
+.recipient-info small {
+
+    color: #7b8794;
+
+}
+
+
+.recipient-item.disabled {
+
+    opacity: .55;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ==========================
+   FILTROS
+========================== */
+
+.reminder-filter-tabs {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+.reminder-filter-btn {
+
+    flex: 1;
+
+    padding: 10px;
+
+    border-radius: 14px;
+
+    border: 1px solid #dfe8f2;
+
+    background: white;
+
+    color: #6b7787;
+
+    font-size: .85rem;
+
+    font-weight: 800;
+
+    transition: .2s ease;
+
+}
+
+
+.reminder-filter-btn:hover {
+
+    border-color: var(--etai-blue);
+
+}
+
+
+.reminder-filter-btn.active {
+
+    background: var(--etai-blue);
+
+    color: white;
+
+    border-color: var(--etai-blue);
+
+}
+
+
+.reminder-filter-btn .count {
+
+    margin-left: 4px;
+
+    padding: 2px 8px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, .25);
+
+}
+
+
+
+/* ==========================
+   PREVIEW MENSAJE
+========================== */
+
+.reminder-preview {
+
+    padding: 16px;
+
+    border-radius: 18px;
+
+    background: #f6f9fc;
+
+    border: 1px dashed #d7e2ef;
+
+}
+
+
+.reminder-preview-content {
+
+    min-height: 80px;
+
+    white-space: pre-line;
+
+    color: #506070;
+
+    font-size: .9rem;
+
+}
+
+
+
+/* ==========================
+   FOOTER
+========================== */
+
+.reminder-footer {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    padding: 20px 30px;
+
+    border-top: 1px solid #edf2f7;
+
+    background: #ffffff;
+
+}
+
+
+.export-reminder {
+
+    background:
+        linear-gradient(135deg,
+            var(--etai-green),
+            #2f8f27);
+
+    color: white;
+
+    font-weight: 850;
+
+    border: 0;
+
+    box-shadow:
+        0 12px 25px rgba(66, 171, 52, .25);
+
+}
+
+
+.export-reminder:hover {
+
+    color: white;
+
+    transform: translateY(-2px);
+
+}
+
+
+
+/* ==========================
+   ANIMACIONES
+========================== */
+
+@keyframes reminderSlide {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px) scale(.97);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform: none;
+
+    }
+
+}
+
+
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px) {
+
+
+    .reminder-backdrop {
+
+        padding: 10px;
+
+        align-items: flex-end;
+
+    }
+
+
+    .reminder-panel {
+
+        max-height: 95vh;
+
+        border-radius: 24px 24px 0 0;
+
+    }
+
+
+    .reminder-header {
+
+        padding: 20px;
+
+    }
+
+
+    .reminder-body {
+
+        padding: 20px;
+
+    }
+
+
+    .reminder-footer {
+
+        padding: 16px;
+
+        flex-direction: column;
+
+    }
+
+
+    .reminder-footer button {
+
+        width: 100%;
+
+    }
+
+
+    .reminder-filter-tabs {
+
+        flex-direction: column;
+
+    }
+
+
+}
