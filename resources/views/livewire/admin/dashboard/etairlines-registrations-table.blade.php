@@ -173,61 +173,145 @@
                         </button>
                     </div>
 
-                    <div class="col-lg-3">
-                        <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
-                            <button type="button" wire:click="openReminderModal" class="btn export-action-btn btn-warning">
-                                <i class="fas fa-bell me-2"></i> Recordatorios
-                            </button>
+                    {{-- Acciones --}}
+                    <div class="col-lg-3 d-flex justify-content-lg-end">
+
+                        <div class="dropdown">
 
                             <button
-                                wire:click="exportRegisters"
-                                class="btn export-action-btn export-register"
                                 type="button"
-                                wire:loading.attr="disabled"
-                                wire:target="exportRegisters">
-
-                                <span wire:loading.remove wire:target="exportRegisters">
-                                    <i class="fas fa-download me-2"></i>
-                                    Registros
-                                </span>
-
-                                <span wire:loading wire:target="exportRegisters">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    Generando...
-                                </span>
+                                class="btn actions-dropdown-btn dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fas fa-sliders-h me-2"></i>
+                                Acciones
                             </button>
 
-                            <button
-                                wire:click="exportContacts"
-                                class="btn export-action-btn export-contact"
-                                type="button"
-                                wire:loading.attr="disabled"
-                                wire:target="exportContacts">
 
-                                <span wire:loading.remove wire:target="exportContacts">
-                                    <i class="fas fa-address-book me-2"></i>
-                                    Contactos
-                                </span>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
 
-                                <span wire:loading wire:target="exportContacts">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    Generando...
-                                </span>
-                            </button>
-                            @if(auth()->user()->email === 'jlizano@iacsa.cr')
+                                {{-- Recordatorios --}}
+                                <li>
 
-                            <a href="{{ route('admin.users.index') }}"
-                                class="btn btn-dark rounded-3 px-4">
+                                    <button
+                                        type="button"
+                                        wire:click="openReminderModal"
+                                        class="dropdown-item rounded-3 py-2">
+                                        <i class="fas fa-bell text-warning me-2"></i>
+                                        Recordatorios
+                                    </button>
 
-                                <i class="fas fa-users-cog me-2"></i>
-                                Usuarios
+                                </li>
 
-                            </a>
 
-                            @endif
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+
+                                {{-- Exportar registros --}}
+                                <li>
+
+                                    <button
+                                        type="button"
+                                        wire:click="exportRegisters"
+                                        class="dropdown-item rounded-3 py-2"
+                                        wire:loading.attr="disabled"
+                                        wire:target="exportRegisters">
+
+                                        <span wire:loading.remove wire:target="exportRegisters">
+
+                                            <i class="fas fa-download text-primary me-2"></i>
+                                            Exportar registros
+
+                                        </span>
+
+
+                                        <span wire:loading wire:target="exportRegisters">
+
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                            Generando...
+
+                                        </span>
+
+                                    </button>
+
+                                </li>
+
+
+                                {{-- Exportar contactos --}}
+                                <li>
+
+                                    <button
+                                        type="button"
+                                        wire:click="exportContacts"
+                                        class="dropdown-item rounded-3 py-2"
+                                        wire:loading.attr="disabled"
+                                        wire:target="exportContacts">
+
+                                        <span wire:loading.remove wire:target="exportContacts">
+
+                                            <i class="fas fa-address-book text-success me-2"></i>
+                                            Exportar contactos
+
+                                        </span>
+
+
+                                        <span wire:loading wire:target="exportContacts">
+
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                            Generando...
+
+                                        </span>
+
+                                    </button>
+
+                                </li>
+
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+
+                                {{-- Pantalla en vivo --}}
+                                <li>
+
+                                    <a
+                                        href="{{ route('admin.etairlines.live-screen') }}"
+                                        target="_blank"
+                                        class="dropdown-item rounded-3 py-2">
+
+                                        <i class="fas fa-tv text-info me-2"></i>
+                                        Pasajeros ETAIrlines
+                                    </a>
+
+                                </li>
+
+
+                                {{-- Usuarios --}}
+                                @if(auth()->user()->email === 'jlizano@iacsa.cr')
+
+                                <li>
+
+                                    <a
+                                        href="{{ route('admin.users.index') }}"
+                                        class="dropdown-item rounded-3 py-2">
+
+                                        <i class="fas fa-users-cog text-dark me-2"></i>
+                                        Administración de usuarios
+
+                                    </a>
+
+                                </li>
+
+                                @endif
+
+                            </ul>
+
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
