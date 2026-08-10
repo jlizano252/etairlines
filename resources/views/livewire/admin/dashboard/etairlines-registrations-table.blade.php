@@ -175,12 +175,8 @@
 
                     <div class="col-lg-3">
                         <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
-                            <button
-                                type="button"
-                                class="btn export-reminder rounded-3 px-4"
-                                wire:click="openReminderModal"
-                                wire:loading.attr="disabled">
-                                 <i class="fa-solid fa-bell"></i> Enviar recordatorio
+                            <button type="button" wire:click="openReminderModal" class="btn export-action-btn btn-warning">
+                                <i class="fas fa-bell me-2"></i> Recordatorios
                             </button>
 
                             <button
@@ -218,7 +214,17 @@
                                     Generando...
                                 </span>
                             </button>
+                            @if(auth()->user()->email === 'jlizano@iacsa.cr')
 
+                            <a href="{{ route('admin.users.index') }}"
+                                class="btn btn-dark rounded-3 px-4">
+
+                                <i class="fas fa-users-cog me-2"></i>
+                                Usuarios
+
+                            </a>
+
+                            @endif
                         </div>
                     </div>
 
