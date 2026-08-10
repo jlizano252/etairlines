@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
                 'password' => 'Etai2026',
             ],
             [
-                'name' => 'Jorge Chaves Blanco',
-                'email' => 'jchaves@etai.ac.cr',
-                'password' => 'Etai2026',
+                'name' => 'Anthony Javier Campos Centeno',
+                'email' => 'acampos@iacsa.cr',
+                'password' => 'AJCC2026',
             ],
             [
                 'name' => 'Marieth Soto',

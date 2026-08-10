@@ -30,29 +30,15 @@ $seat = $seatRow . $seatLetter;
 | Próximo cuatrimestre
 |--------------------------------------------------------------------------
 */
+$startYear = 2027;
 
-$month = now()->month;
-$year = now()->year;
+// Siempre mostrar el primer cuatrimestre del año siguiente
+$year = max(now()->year + 1, $startYear);
 
-// Hasta finalizar el 2026 siempre mostrar I Cuatrimestre 2027
-if ($year < 2027) {
-    $nextQuarter='I' ;
-    $year=2027;
-    } else {
+$departure = "I Cuatrimestre {$year}";
+@endphp
 
-    if ($month <=4) {
-    $nextQuarter='I' ;
-    } elseif ($month <=8) {
-    $nextQuarter='II' ;
-    } else {
-    $nextQuarter='III' ;
-    }
-    }
-
-    $departure=$nextQuarter . ' Cuatrimestre ' . $year;
-    @endphp
-
-    <div class="etairlines-page etairlines-mobile-first">
+<div class="etairlines-page etairlines-mobile-first">
     <div class="etairlines-shell">
         <div class="boarding-card">
 
@@ -370,7 +356,7 @@ if ($year < 2027) {
                         <div class="coupon-box">
                             <div>
                                 <span>CUPÓN ESPECIAL</span>
-                                <strong>50%</strong>
+                                <strong>40%</strong>
                                 <em>DE DESCUENTO</em>
                             </div>
 
@@ -441,20 +427,20 @@ if ($year < 2027) {
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <script>
-        function formatPhone(input) {
-            let phoneValue = input.value.replace(/\D/g, '');
+<script>
+    function formatPhone(input) {
+        let phoneValue = input.value.replace(/\D/g, '');
 
-            if (phoneValue.length > 12) {
-                phoneValue = phoneValue.substring(0, 12);
-            }
-
-            if (phoneValue.length >= 8) {
-                phoneValue = phoneValue.substring(0, 4) + '-' + phoneValue.substring(4);
-            }
-
-            input.value = phoneValue;
+        if (phoneValue.length > 12) {
+            phoneValue = phoneValue.substring(0, 12);
         }
-    </script>
+
+        if (phoneValue.length >= 8) {
+            phoneValue = phoneValue.substring(0, 4) + '-' + phoneValue.substring(4);
+        }
+
+        input.value = phoneValue;
+    }
+</script>

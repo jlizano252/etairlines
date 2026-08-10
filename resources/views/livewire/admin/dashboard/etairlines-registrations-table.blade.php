@@ -63,6 +63,81 @@
                 </div>
             </div>
 
+            @if($campaign)
+
+            <div class="card border-0 shadow-sm mb-4"
+                wire:poll.1s="refreshCampaign">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <strong>
+                            Enviando recordatorios
+                        </strong>
+
+                        <strong>
+                            {{ $campaign->sent + $campaign->failed }}
+                            /
+                            {{ $campaign->total }}
+                            ({{ $progress }}%)
+                        </strong>
+
+                    </div>
+
+                    <div class="progress" style="height:25px">
+
+                        <div
+                            class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                            role="progressbar"
+                            style="width: {{ $progress }}%">
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-2">
+
+                        <small class="text-muted">
+
+                            Enviados:
+
+                            <strong>{{ $campaign->sent }}</strong>
+
+                            &nbsp;|&nbsp;
+
+                            Fallidos:
+
+                            <strong>{{ $campaign->failed }}</strong>
+
+                            &nbsp;|&nbsp;
+
+                            Total:
+
+                            <strong>{{ $campaign->total }}</strong>
+
+                        </small>
+
+                    </div>
+
+                    @if($campaign->status === 'completed')
+
+                    <div class="alert alert-success mt-3 mb-0">
+
+                        <i class="fas fa-check-circle me-2"></i>
+
+                        Todos los correos fueron procesados.
+
+                    </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+            @endif
+
             {{-- Filtros --}}
             <div class="filter-card mb-4">
                 <div class="row g-3 align-items-center">
@@ -100,6 +175,9 @@
 
                     <div class="col-lg-3">
                         <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
+                            <button type="button" wire:click="openReminderModal" class="btn export-action-btn btn-warning">
+                                <i class="fas fa-bell me-2"></i> Recordatorios
+                            </button>
 
                             <button
                                 wire:click="exportRegisters"
@@ -136,7 +214,17 @@
                                     Generando...
                                 </span>
                             </button>
+                            @if(auth()->user()->email === 'jlizano@iacsa.cr')
 
+                            <a href="{{ route('admin.users.index') }}"
+                                class="btn btn-dark rounded-3 px-4">
+
+                                <i class="fas fa-users-cog me-2"></i>
+                                Usuarios
+
+                            </a>
+
+                            @endif
                         </div>
                     </div>
 
@@ -228,4 +316,338 @@
 
         </div>
     </div>
+    {{-- ================= MODAL DE RECORDATORIO ================= --}}
+    @if($showReminderModal)
+
+    <div class="reminder-modal-wrapper">
+
+        <div class="reminder-backdrop">
+
+            <div class="reminder-panel">
+
+
+                {{-- Header --}}
+                <div class="reminder-header">
+
+                    <div>
+
+                        <span class="badge rounded-pill bg-light text-navy px-3 py-2 mb-2">
+                            <i class="fas fa-plane-departure me-1"></i>
+                            ETAIRLINES
+                        </span>
+
+                        <h4 class="fw-bold text-navy mb-0">
+                            Enviar recordatorio
+                        </h4>
+
+                        <small class="text-muted">
+                            Selecciona destinatarios y redacta tu mensaje
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="reminder-close-btn"
+                        wire:click="closeReminderModal">
+
+                        <i class="fas fa-times"></i>
+
+                    </button>
+
+
+                </div>
+
+
+
+                {{-- Body --}}
+                <div class="reminder-body">
+
+                    <div class="row g-4">
+
+
+                        {{-- Destinatarios --}}
+                        <div class="col-lg-5">
+
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+
+
+                                <label class="fw-semibold text-navy">
+
+                                    Destinatarios
+
+                                    <span class="text-muted">
+                                        ({{ count($reminderSelected) }})
+                                    </span>
+
+                                </label>
+
+
+
+                                <div class="form-check">
+
+
+                                    <input
+                                        type="checkbox"
+                                        id="selectAllReminder"
+                                        class="form-check-input"
+                                        wire:model="reminderSelectAll"
+                                        wire:change="toggleReminderSelectAll">
+
+
+                                    <label
+                                        class="form-check-label small"
+                                        for="selectAllReminder">
+
+                                        Todos
+
+                                    </label>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <input
+                                type="text"
+                                class="form-control mb-3"
+                                placeholder="Buscar..."
+                                wire:model.debounce.300ms="reminderSearch">
+
+
+
+
+
+                            <div class="reminder-filter-tabs mb-3">
+
+
+                                <button
+                                    type="button"
+                                    wire:click="$set('reminderFilter','with_email')"
+                                    class="reminder-filter-btn {{ $reminderFilter == 'with_email' ? 'active':'' }}">
+
+                                    <i class="fas fa-envelope"></i>
+
+                                    Con correo
+
+                                    <span class="count">
+                                        {{ $withEmailCount }}
+                                    </span>
+
+                                </button>
+
+
+
+                                <button
+                                    type="button"
+                                    wire:click="$set('reminderFilter','without_email')"
+                                    class="reminder-filter-btn {{ $reminderFilter == 'without_email' ? 'active':'' }}">
+
+                                    <i class="fas fa-envelope-open-text"></i>
+
+                                    Sin correo
+
+                                    <span class="count">
+                                        {{ $withoutEmailCount }}
+                                    </span>
+
+                                </button>
+
+
+                            </div>
+
+
+
+
+
+                            <div class="recipient-list">
+
+
+                                @forelse($this->reminderCandidates as $r)
+
+
+                                <label class="recipient-item">
+
+
+                                    <input
+                                        type="checkbox"
+                                        value="{{ $r->id }}"
+                                        wire:model="reminderSelected"
+                                        @disabled(!$r->email)>
+
+
+                                    <div class="recipient-info">
+
+                                        <strong>
+                                            {{ $r->name }}
+                                        </strong>
+
+
+                                        <small>
+                                            {{ $r->email ?? 'Sin correo registrado' }}
+                                        </small>
+
+                                    </div>
+
+
+                                </label>
+
+
+                                @empty
+
+
+                                <div class="text-center text-muted py-4">
+
+                                    No hay registros.
+
+                                </div>
+
+
+                                @endforelse
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        {{-- Mensaje --}}
+                        <div class="col-lg-7">
+
+
+                            <label class="fw-semibold text-navy">
+                                Asunto
+                            </label>
+
+
+                            <input
+                                type="text"
+                                class="form-control mb-3"
+                                wire:model="reminderSubject">
+
+
+
+
+
+                            <label class="fw-semibold text-navy">
+                                Mensaje
+                            </label>
+
+
+
+                            <textarea
+                                rows="9"
+                                class="form-control"
+                                wire:model="reminderMessage"></textarea>
+
+
+
+
+
+                            <div class="reminder-preview mt-3">
+
+
+                                <small class="text-muted">
+
+                                    <i class="fas fa-eye"></i>
+
+                                    Vista previa
+
+                                </small>
+
+
+
+                                <div class="reminder-preview-content">
+
+                                    {!! nl2br(e(str_replace(
+                                    '{nombre}',
+                                    'Nombre del estudiante',
+                                    $reminderMessage
+                                    ))) !!}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                {{-- Footer --}}
+                <div class="reminder-footer">
+
+
+                    <button
+                        type="button"
+                        class="btn btn-light rounded-3 px-4"
+                        wire:click="closeReminderModal">
+
+                        Cancelar
+
+                    </button>
+
+
+
+
+
+                    <button
+                        type="button"
+                        class="btn export-reminder rounded-3 px-4"
+                        wire:click="sendReminders"
+                        wire:loading.attr="disabled">
+
+
+                        <span wire:loading.remove wire:target="sendReminders">
+
+                            <i class="fas fa-paper-plane me-2"></i>
+
+                            Enviar a {{ count($reminderSelected) }}
+
+                        </span>
+
+
+                        <span wire:loading wire:target="sendReminders">
+
+                            <span class="spinner-border spinner-border-sm"></span>
+
+                            Enviando...
+
+                        </span>
+
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    @endif
 </div>
