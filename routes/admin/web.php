@@ -21,3 +21,6 @@ Route::middleware('superadmin')->group(function () {
         return view('dashboard-mod.users-layout');
     })->name('admin.users.index');
 });
+Route::get('/etairlines/liveScreen', function () {
+    return view('dashboard-mod.etairlines-live-screen');
+})->name('admin.etairlines.live-screen');

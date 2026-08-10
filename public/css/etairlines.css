@@ -2874,3 +2874,75 @@
         width: 100%;
     }
 }
+
+/* =========================================================
+   ACCIONES DEL PANEL ETAIRLINES
+   ========================================================= */
+
+.live-screen-btn,
+.users-admin-btn {
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all .2s ease;
+}
+
+
+/* Pantalla en vivo */
+
+.live-screen-btn {
+    color: #fff;
+    background: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+
+.live-screen-btn:hover {
+    color: #fff;
+    background: #0b5ed7;
+    border-color: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+
+/* Usuarios */
+
+.users-admin-btn {
+    color: #fff;
+    background: #212529;
+    border: 1px solid #212529;
+}
+
+.users-admin-btn:hover {
+    color: #fff;
+    background: #000;
+    border-color: #000;
+    transform: translateY(-1px);
+}
+
+
+/* Responsive */
+
+@media (max-width: 991px) {
+
+    .live-screen-btn,
+    .users-admin-btn {
+        flex: 1 1 auto;
+    }
+
+}
+
+
+@media (max-width: 575px) {
+
+    .live-screen-btn,
+    .users-admin-btn {
+        width: 100%;
+    }
+
+}
