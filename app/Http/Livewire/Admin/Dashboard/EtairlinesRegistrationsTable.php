@@ -25,7 +25,7 @@ class EtairlinesRegistrationsTable extends Component
 
     public int $progress = 0;
     public array $careers = [
-        'Administración de Empresa Virtual',
+        'Administración de Empresas Virtual',
         'Gestión Empresarial',
         'Administración de Empresas Agropecuarias',
         'Ciencias Agropecuarias',
