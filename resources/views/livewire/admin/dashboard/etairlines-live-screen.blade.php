@@ -1,5 +1,5 @@
 <div
-    wire:poll.500ms="checkForNewRegistrations"
+    wire:poll.1s="checkForNewRegistrations"
     style="
         min-height: 100vh;
         padding: 40px;

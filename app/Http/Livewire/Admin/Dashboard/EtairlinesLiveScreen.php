@@ -24,7 +24,6 @@ class EtairlinesLiveScreen extends Component
 
     /**
      * ID del participante que acaba de entrar.
-     * Lo utilizaremos después para la animación.
      */
     public ?int $newParticipantId = null;
 
@@ -50,11 +49,10 @@ class EtairlinesLiveScreen extends Component
         }
 
         /*
-         * Guardamos el ID más reciente que existe actualmente.
+         * Guardamos el ID más reciente existente.
          *
-         * Esto es importante porque NO queremos que al abrir
-         * la pantalla vuelva a mostrar todos los registros antiguos
-         * como si fueran nuevos.
+         * De esta manera, los registros antiguos NO se
+         * consideran nuevos cuando abrimos la pantalla.
          */
         $this->lastRegistrationId =
             (int) (EtairlinesRegistration::max('id') ?? 0);
@@ -67,16 +65,39 @@ class EtairlinesLiveScreen extends Component
     }
 
     /**
-     * Busca nuevos registros.
+     * Comprueba si existe un nuevo registro.
      *
-     * Este método será ejecutado automáticamente
-     * por Livewire cada 500 ms.
+     * Este método se ejecuta cada 500 ms.
      */
     public function checkForNewRegistrations(): void
     {
         /*
-         * Buscamos solamente registros cuyo ID sea
-         * mayor al último que ya conocemos.
+         * PRIMERA CONSULTA:
+         *
+         * Solo preguntamos cuál es el ID más reciente.
+         *
+         * Esta consulta es muy pequeña porque "id"
+         * normalmente es la PRIMARY KEY de la tabla.
+         */
+        $latestId = (int) (
+            EtairlinesRegistration::max('id') ?? 0
+        );
+
+        /*
+         * Si el ID no cambió, significa que NO hay
+         * registros nuevos.
+         *
+         * Terminamos aquí y no hacemos ninguna consulta adicional.
+         */
+        if ($latestId <= $this->lastRegistrationId) {
+            return;
+        }
+
+        /*
+         * Llegamos aquí únicamente si apareció
+         * al menos un registro nuevo.
+         *
+         * Ahora sí buscamos los registros nuevos.
          */
         $newRegistrations = EtairlinesRegistration::query()
             ->where('id', '>', $this->lastRegistrationId)
@@ -84,19 +105,7 @@ class EtairlinesLiveScreen extends Component
             ->get();
 
         /*
-         * Si no hay registros nuevos,
-         * solamente actualizamos el contador.
-         */
-        if ($newRegistrations->isEmpty()) {
-
-            $this->totalParticipants =
-                EtairlinesRegistration::count();
-
-            return;
-        }
-
-        /*
-         * Procesamos todos los registros nuevos.
+         * Agregamos los nuevos participantes.
          */
         foreach ($newRegistrations as $registration) {
 
@@ -106,10 +115,10 @@ class EtairlinesLiveScreen extends Component
             ];
 
             /*
-             * Guardamos cuál fue el último participante recibido.
+             * Guardamos el último participante recibido.
              */
             $this->newParticipantId =
-                $registration->id;
+                (int) $registration->id;
 
             /*
              * Actualizamos el último ID conocido.
@@ -125,7 +134,8 @@ class EtairlinesLiveScreen extends Component
             array_slice($this->participants, -12);
 
         /*
-         * Actualizamos el contador.
+         * Actualizamos el contador solamente
+         * porque realmente hubo registros nuevos.
          */
         $this->totalParticipants =
             EtairlinesRegistration::count();
