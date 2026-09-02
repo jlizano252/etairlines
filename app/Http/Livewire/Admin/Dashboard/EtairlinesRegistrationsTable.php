@@ -19,11 +19,13 @@ class EtairlinesRegistrationsTable extends Component
 
     public string $search = '';
     public string $career = '';
+
     protected $paginationTheme = 'bootstrap';
 
     public ?EmailCampaign $campaign = null;
 
     public int $progress = 0;
+
     public array $careers = [
         'Administración de Empresas Virtual',
         'Gestión Empresarial',
@@ -36,14 +38,35 @@ class EtairlinesRegistrationsTable extends Component
         'Biotecnología',
     ];
 
-    // ---- Estado del modal de recordatorio ----
+    // =========================================================
+    // MODAL DE RECORDATORIO
+    // =========================================================
+
     public bool $showReminderModal = false;
+
     public string $reminderSearch = '';
-    public string $reminderFilter = 'with_email'; // with_email | without_email
+
+    public string $reminderFilter = 'with_email';
+
+    /**
+     * Carrera seleccionada para el envío.
+     *
+     * '' = Todas las carreras
+     */
+    public string $reminderCareer = '';
+
     public array $reminderSelected = [];
+
     public bool $reminderSelectAll = false;
+
     public string $reminderSubject = 'ETAIRLINES | Recordatorio importante';
+
     public string $reminderMessage = "Hola {nombre},\n\nQueremos recordarte que tenemos información pendiente relacionada con tu registro. Nos encantaría continuar acompañándote en este proceso.\n\nSi ya tomaste una decisión o tienes alguna consulta, no dudes en contactarnos.\n\nSaludos,\nEquipo ETAIRLINES";
+
+
+    // =========================================================
+    // FILTROS PRINCIPALES
+    // =========================================================
 
     public function updatingSearch(): void
     {
@@ -58,25 +81,47 @@ class EtairlinesRegistrationsTable extends Component
     public function clearFilters(): void
     {
         $this->reset(['search', 'career']);
+
         $this->resetPage();
     }
 
+
+    // =========================================================
+    // EXPORTACIONES
+    // =========================================================
+
     public function exportRegisters()
     {
-        return Excel::download(new EtairlinesRegistrationsExport(), 'ETAirlines-Registros-' . now()->format('Y-m-d_H-i-s') . '.xlsx');
+        return Excel::download(
+            new EtairlinesRegistrationsExport(),
+            'ETAirlines-Registros-' . now()->format('Y-m-d_H-i-s') . '.xlsx'
+        );
     }
 
     public function exportContacts()
     {
-        return Excel::download(new EtairlinesContactsExport(), 'ETAirlines-Contactos-' . now()->format('Y-m-d_H-i-s') . '.xlsx');
+        return Excel::download(
+            new EtairlinesContactsExport(),
+            'ETAirlines-Contactos-' . now()->format('Y-m-d_H-i-s') . '.xlsx'
+        );
     }
 
-    // ---- Modal de recordatorio ----
+
+    // =========================================================
+    // MODAL DE RECORDATORIO
+    // =========================================================
 
     public function openReminderModal(): void
     {
-        $this->reset(['reminderSelected', 'reminderSelectAll', 'reminderSearch']);
+        $this->reset([
+            'reminderSelected',
+            'reminderSelectAll',
+            'reminderSearch',
+            'reminderCareer',
+        ]);
+
         $this->reminderFilter = 'with_email';
+
         $this->showReminderModal = true;
     }
 
@@ -85,45 +130,143 @@ class EtairlinesRegistrationsTable extends Component
         $this->showReminderModal = false;
     }
 
+
+    // =========================================================
+    // FILTROS DEL MODAL
+    // =========================================================
+
     public function updatedReminderFilter(): void
     {
+        $this->reminderSelected = [];
+
         $this->reminderSelectAll = false;
     }
+
+    public function updatedReminderCareer(): void
+    {
+        /*
+         * Cuando se cambia de carrera,
+         * eliminamos las selecciones anteriores.
+         */
+        $this->reminderSelected = [];
+
+        $this->reminderSelectAll = false;
+    }
+
+    public function updatedReminderSearch(): void
+    {
+        /*
+         * Evita conservar selecciones que ya no
+         * pertenecen a los resultados visibles.
+         */
+        $this->reminderSelected = [];
+
+        $this->reminderSelectAll = false;
+    }
+
+
+    // =========================================================
+    // DESTINATARIOS DEL MODAL
+    // =========================================================
 
     public function getReminderCandidatesProperty()
     {
         $query = EtairlinesRegistration::query();
 
+
+        // -----------------------------------------------------
+        // Filtro por correo
+        // -----------------------------------------------------
+
         if ($this->reminderFilter === 'with_email') {
-            $query->whereNotNull('email')->where('email', '!=', '');
+
+            $query->whereNotNull('email')
+                ->where('email', '!=', '');
+
         } else {
+
             $query->where(function ($q) {
-                $q->whereNull('email')->orWhere('email', '');
+
+                $q->whereNull('email')
+                    ->orWhere('email', '');
+
             });
+
         }
+
+
+        // -----------------------------------------------------
+        // Filtro por carrera
+        // -----------------------------------------------------
+
+        if ($this->reminderCareer) {
+
+            $query->where(function ($q) {
+
+                $q->where('interest_one', $this->reminderCareer)
+                    ->orWhere('interest_two', $this->reminderCareer);
+
+            });
+
+        }
+
+
+        // -----------------------------------------------------
+        // Búsqueda
+        // -----------------------------------------------------
 
         if ($this->reminderSearch) {
+
             $query->where(function ($q) {
-                $q->where('name', 'like', "%{$this->reminderSearch}%")
-                    ->orWhere('email', 'like', "%{$this->reminderSearch}%");
+
+                $q->where(
+                    'name',
+                    'like',
+                    "%{$this->reminderSearch}%"
+                )
+                ->orWhere(
+                    'email',
+                    'like',
+                    "%{$this->reminderSearch}%"
+                );
+
             });
+
         }
 
-        return $query->orderBy('name')->get();
+
+        return $query
+            ->orderBy('name')
+            ->get();
     }
+
+
+    // =========================================================
+    // SELECCIONAR TODOS
+    // =========================================================
 
     public function toggleReminderSelectAll(): void
     {
         if ($this->reminderSelectAll) {
+
             $this->reminderSelected = $this->reminderCandidates
                 ->whereNotNull('email')
+                ->where('email', '!=', '')
                 ->pluck('id')
-                ->map(fn($id) => (string) $id)
+                ->map(fn ($id) => (string) $id)
                 ->toArray();
+
         } else {
+
             $this->reminderSelected = [];
+
         }
     }
+
+
+    // =========================================================
+    // ENVIAR RECORDATORIOS
+    // =========================================================
 
     public function sendReminders()
     {
@@ -134,13 +277,65 @@ class EtairlinesRegistrationsTable extends Component
         ]);
 
 
-        $registros = EtairlinesRegistration::whereIn('id', $this->reminderSelected)
-            ->whereNotNull('email')
-            ->where('email', '!=', '')
-            ->get();
+        /*
+         * IMPORTANTE:
+         *
+         * Aquí volvemos a aplicar el filtro de carrera.
+         *
+         * Esto garantiza que aunque alguien manipule
+         * el frontend, solamente se envíen correos a
+         * personas de la carrera seleccionada.
+         */
+
+        $query = EtairlinesRegistration::whereIn(
+            'id',
+            $this->reminderSelected
+        )
+        ->whereNotNull('email')
+        ->where('email', '!=', '');
 
 
-        // Crear seguimiento del envío
+        // -----------------------------------------------------
+        // Aplicar carrera nuevamente al envío
+        // -----------------------------------------------------
+
+        if ($this->reminderCareer) {
+
+            $query->where(function ($q) {
+
+                $q->where(
+                    'interest_one',
+                    $this->reminderCareer
+                )
+                ->orWhere(
+                    'interest_two',
+                    $this->reminderCareer
+                );
+
+            });
+
+        }
+
+
+        $registros = $query->get();
+
+
+        // Si por alguna razón no quedaron registros válidos
+        if ($registros->isEmpty()) {
+
+            session()->flash(
+                'error',
+                'No hay destinatarios válidos para enviar el recordatorio.'
+            );
+
+            return;
+        }
+
+
+        // -----------------------------------------------------
+        // Crear campaña
+        // -----------------------------------------------------
+
         $campaign = EmailCampaign::create([
             'type' => 'etairlines_reminder',
             'subject' => $this->reminderSubject,
@@ -150,8 +345,16 @@ class EtairlinesRegistrationsTable extends Component
             'status' => 'processing',
         ]);
 
+
         $this->campaign = $campaign;
+
         $this->progress = 0;
+
+
+        // -----------------------------------------------------
+        // Programar correos
+        // -----------------------------------------------------
+
         foreach ($registros as $index => $registro) {
 
             SendEtairlinesReminderMailJob::dispatch(
@@ -161,9 +364,16 @@ class EtairlinesRegistrationsTable extends Component
                 $this->reminderSubject,
                 $this->reminderMessage
             )
-                ->delay(now()->addSeconds($index * 5));
+            ->delay(
+                now()->addSeconds($index * 5)
+            );
+
         }
 
+
+        // -----------------------------------------------------
+        // Limpiar modal
+        // -----------------------------------------------------
 
         $this->showReminderModal = false;
 
@@ -178,60 +388,156 @@ class EtairlinesRegistrationsTable extends Component
         );
     }
 
+
+    // =========================================================
+    // PROGRESO DE CAMPAÑA
+    // =========================================================
+
     public function refreshCampaign(): void
     {
         if (!$this->campaign) {
-            $this->campaign = EmailCampaign::where('status', 'processing')
-                ->latest()
-                ->first();
+
+            $this->campaign = EmailCampaign::where(
+                'status',
+                'processing'
+            )
+            ->latest()
+            ->first();
+
 
             if (!$this->campaign) {
                 return;
             }
         }
 
+
         $this->campaign->refresh();
 
+
         if ($this->campaign->total > 0) {
+
             $this->progress = (int) round(
-                (($this->campaign->sent + $this->campaign->failed) / $this->campaign->total) * 100
+
+                (
+                    ($this->campaign->sent + $this->campaign->failed)
+                    /
+                    $this->campaign->total
+                ) * 100
+
             );
+
         }
 
+
         if ($this->campaign->status === 'completed') {
+
             $this->progress = 100;
+
         }
     }
+
+
+    // =========================================================
+    // RENDER
+    // =========================================================
 
     public function render()
     {
         $query = EtairlinesRegistration::query();
 
+
+        // -----------------------------------------------------
+        // Búsqueda principal
+        // -----------------------------------------------------
+
         if ($this->search) {
+
             $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('school', 'like', '%' . $this->search . '%')
-                    ->orWhere('phone', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
+
+                $q->where(
+                    'name',
+                    'like',
+                    '%' . $this->search . '%'
+                )
+                ->orWhere(
+                    'school',
+                    'like',
+                    '%' . $this->search . '%'
+                )
+                ->orWhere(
+                    'phone',
+                    'like',
+                    '%' . $this->search . '%'
+                )
+                ->orWhere(
+                    'email',
+                    'like',
+                    '%' . $this->search . '%'
+                );
+
             });
+
         }
+
+
+        // -----------------------------------------------------
+        // Carrera principal
+        // -----------------------------------------------------
 
         if ($this->career) {
+
             $query->where(function ($q) {
-                $q->where('interest_one', $this->career)
-                    ->orWhere('interest_two', $this->career);
+
+                $q->where(
+                    'interest_one',
+                    $this->career
+                )
+                ->orWhere(
+                    'interest_two',
+                    $this->career
+                );
+
             });
+
         }
 
-        return view('livewire.admin.dashboard.etairlines-registrations-table', [
-            'registrations' => $query->latest()->paginate(10),
-            'total' => EtairlinesRegistration::count(),
-            'withEmail' => EtairlinesRegistration::whereNotNull('email')->where('email', '!=', '')->count(),
-            'emailsSent' => EtairlinesRegistration::whereNotNull('email_sent_at')->count(),
-            'withEmailCount' => EtairlinesRegistration::whereNotNull('email')->where('email', '!=', '')->count(),
-            'withoutEmailCount' => EtairlinesRegistration::where(function ($q) {
-                $q->whereNull('email')->orWhere('email', '');
-            })->count(),
-        ]);
+
+        return view(
+            'livewire.admin.dashboard.etairlines-registrations-table',
+            [
+
+                'registrations' =>
+                    $query
+                        ->latest()
+                        ->paginate(10),
+
+                'total' =>
+                    EtairlinesRegistration::count(),
+
+                'withEmail' =>
+                    EtairlinesRegistration::whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->count(),
+
+                'emailsSent' =>
+                    EtairlinesRegistration::whereNotNull('email_sent_at')
+                        ->count(),
+
+                'withEmailCount' =>
+                    EtairlinesRegistration::whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->count(),
+
+                'withoutEmailCount' =>
+                    EtairlinesRegistration::where(function ($q) {
+
+                        $q->whereNull('email')
+                            ->orWhere('email', '');
+
+                    })
+                    ->count(),
+
+            ]
+        );
     }
 }

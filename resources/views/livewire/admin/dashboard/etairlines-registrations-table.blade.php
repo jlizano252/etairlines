@@ -504,9 +504,33 @@
                                 placeholder="Buscar..."
                                 wire:model.debounce.300ms="reminderSearch">
 
+                            {{-- Filtro por carrera --}}
+                            <div class="mb-3">
 
+                                <label class="fw-semibold text-navy mb-2">
+                                    <i class="fas fa-graduation-cap me-1"></i>
+                                    Carrera
+                                </label>
 
+                                <select
+                                    class="form-select"
+                                    wire:model="reminderCareer">
 
+                                    <option value="">
+                                        Todas las carreras
+                                    </option>
+
+                                    @foreach($careers as $careerOption)
+
+                                    <option value="{{ $careerOption }}">
+                                        {{ $careerOption }}
+                                    </option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
 
                             <div class="reminder-filter-tabs mb-3">
 
