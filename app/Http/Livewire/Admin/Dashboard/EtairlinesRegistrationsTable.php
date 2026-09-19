@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\SendEtairlinesReminderMailJob;
 use App\Models\EmailCampaign;
+use App\Jobs\SendEtairlinesBoardingPassMailJob;
 
 class EtairlinesRegistrationsTable extends Component
 {
@@ -85,6 +86,33 @@ class EtairlinesRegistrationsTable extends Component
         $this->resetPage();
     }
 
+    // =========================================================
+    // REENVIAR CORREO
+    // =========================================================
+
+    public bool $showResendModal = false;
+
+    public ?int $resendRegistrationId = null;
+
+    public string $resendRegistrationName = '';
+
+    public string $resendCurrentEmail = '';
+
+    public string $resendEmail = '';
+
+    public ?int $checkingRegistrationId = null;
+
+    public bool $checkingRegistrationStatus = false;
+
+    // =========================================================
+    // ELIMINAR REGISTRO
+    // =========================================================
+
+    public bool $showDeleteModal = false;
+
+    public ?int $deleteRegistrationId = null;
+
+    public string $deleteRegistrationName = '';
 
     // =========================================================
     // EXPORTACIONES
@@ -182,16 +210,13 @@ class EtairlinesRegistrationsTable extends Component
 
             $query->whereNotNull('email')
                 ->where('email', '!=', '');
-
         } else {
 
             $query->where(function ($q) {
 
                 $q->whereNull('email')
                     ->orWhere('email', '');
-
             });
-
         }
 
 
@@ -205,9 +230,7 @@ class EtairlinesRegistrationsTable extends Component
 
                 $q->where('interest_one', $this->reminderCareer)
                     ->orWhere('interest_two', $this->reminderCareer);
-
             });
-
         }
 
 
@@ -224,14 +247,12 @@ class EtairlinesRegistrationsTable extends Component
                     'like',
                     "%{$this->reminderSearch}%"
                 )
-                ->orWhere(
-                    'email',
-                    'like',
-                    "%{$this->reminderSearch}%"
-                );
-
+                    ->orWhere(
+                        'email',
+                        'like',
+                        "%{$this->reminderSearch}%"
+                    );
             });
-
         }
 
 
@@ -253,13 +274,11 @@ class EtairlinesRegistrationsTable extends Component
                 ->whereNotNull('email')
                 ->where('email', '!=', '')
                 ->pluck('id')
-                ->map(fn ($id) => (string) $id)
+                ->map(fn($id) => (string) $id)
                 ->toArray();
-
         } else {
 
             $this->reminderSelected = [];
-
         }
     }
 
@@ -291,8 +310,8 @@ class EtairlinesRegistrationsTable extends Component
             'id',
             $this->reminderSelected
         )
-        ->whereNotNull('email')
-        ->where('email', '!=', '');
+            ->whereNotNull('email')
+            ->where('email', '!=', '');
 
 
         // -----------------------------------------------------
@@ -307,13 +326,11 @@ class EtairlinesRegistrationsTable extends Component
                     'interest_one',
                     $this->reminderCareer
                 )
-                ->orWhere(
-                    'interest_two',
-                    $this->reminderCareer
-                );
-
+                    ->orWhere(
+                        'interest_two',
+                        $this->reminderCareer
+                    );
             });
-
         }
 
 
@@ -364,10 +381,9 @@ class EtairlinesRegistrationsTable extends Component
                 $this->reminderSubject,
                 $this->reminderMessage
             )
-            ->delay(
-                now()->addSeconds($index * 5)
-            );
-
+                ->delay(
+                    now()->addSeconds($index * 5)
+                );
         }
 
 
@@ -401,8 +417,8 @@ class EtairlinesRegistrationsTable extends Component
                 'status',
                 'processing'
             )
-            ->latest()
-            ->first();
+                ->latest()
+                ->first();
 
 
             if (!$this->campaign) {
@@ -425,17 +441,158 @@ class EtairlinesRegistrationsTable extends Component
                 ) * 100
 
             );
-
         }
 
 
         if ($this->campaign->status === 'completed') {
 
             $this->progress = 100;
-
         }
     }
 
+    private function canManageRegistrations(): bool
+    {
+        return in_array(auth()->user()->email, [
+            'jlizano@iacsa.cr',
+            'acampos@iacsa.cr',
+        ], true);
+    }
+
+    public function openResendModal(int $id): void
+    {
+        abort_unless($this->canManageRegistrations(), 403);
+
+        $registration = EtairlinesRegistration::findOrFail($id);
+
+        $this->resendRegistrationId = $registration->id;
+        $this->resendRegistrationName = $registration->name;
+        $this->resendCurrentEmail = $registration->email ?? '';
+        $this->resendEmail = $registration->email ?? '';
+
+        $this->resetValidation();
+
+        $this->showResendModal = true;
+    }
+
+    public function closeResendModal(): void
+    {
+        $this->showResendModal = false;
+
+        $this->resendRegistrationId = null;
+        $this->resendRegistrationName = '';
+        $this->resendCurrentEmail = '';
+        $this->resendEmail = '';
+
+        $this->resetValidation();
+    }
+
+    public function confirmDelete(int $id): void
+    {
+        abort_unless($this->canManageRegistrations(), 403);
+
+        $registration = EtairlinesRegistration::findOrFail($id);
+
+        $this->deleteRegistrationId = $registration->id;
+        $this->deleteRegistrationName = $registration->name;
+
+        $this->showDeleteModal = true;
+    }
+
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+
+        $this->deleteRegistrationId = null;
+        $this->deleteRegistrationName = '';
+    }
+
+    public function deleteRegistration(): void
+    {
+        abort_unless($this->canManageRegistrations(), 403);
+
+        if (!$this->deleteRegistrationId) {
+            return;
+        }
+
+        $registration = EtairlinesRegistration::findOrFail(
+            $this->deleteRegistrationId
+        );
+
+        $registration->delete();
+
+        $this->closeDeleteModal();
+
+        $this->resetPage();
+
+        session()->flash(
+            'message',
+            'Registro eliminado correctamente.'
+        );
+    }
+
+    public function resendEmail(): void
+    {
+        abort_unless($this->canManageRegistrations(), 403);
+
+        $this->validate([
+            'resendEmail' => [
+                'required',
+                'email',
+                'max:255',
+            ],
+        ]);
+
+        if (!$this->resendRegistrationId) {
+            return;
+        }
+
+        $registration = EtairlinesRegistration::findOrFail(
+            $this->resendRegistrationId
+        );
+
+        $registration->update([
+            'email' => $this->resendEmail,
+            'email_sent_at' => null,
+        ]);
+
+        // Guardamos qué registro estamos esperando
+        $this->checkingRegistrationId = $registration->id;
+        $this->checkingRegistrationStatus = true;
+
+        SendEtairlinesBoardingPassMailJob::dispatch(
+            $registration->id
+        );
+
+        $this->closeResendModal();
+
+        session()->flash(
+            'message',
+            'El correo fue actualizado y quedó pendiente de envío.'
+        );
+    }
+
+    public function checkRegistrationStatus(): void
+    {
+        if (!$this->checkingRegistrationId) {
+            return;
+        }
+
+        $registration = EtairlinesRegistration::find(
+            $this->checkingRegistrationId
+        );
+
+        if (!$registration) {
+            $this->checkingRegistrationId = null;
+            $this->checkingRegistrationStatus = false;
+            return;
+        }
+
+        // El worker ya terminó el envío
+        if ($registration->email_sent_at) {
+            $this->checkingRegistrationId = null;
+            $this->checkingRegistrationStatus = false;
+        }
+    }
 
     // =========================================================
     // RENDER
@@ -459,24 +616,22 @@ class EtairlinesRegistrationsTable extends Component
                     'like',
                     '%' . $this->search . '%'
                 )
-                ->orWhere(
-                    'school',
-                    'like',
-                    '%' . $this->search . '%'
-                )
-                ->orWhere(
-                    'phone',
-                    'like',
-                    '%' . $this->search . '%'
-                )
-                ->orWhere(
-                    'email',
-                    'like',
-                    '%' . $this->search . '%'
-                );
-
+                    ->orWhere(
+                        'school',
+                        'like',
+                        '%' . $this->search . '%'
+                    )
+                    ->orWhere(
+                        'phone',
+                        'like',
+                        '%' . $this->search . '%'
+                    )
+                    ->orWhere(
+                        'email',
+                        'like',
+                        '%' . $this->search . '%'
+                    );
             });
-
         }
 
 
@@ -492,13 +647,11 @@ class EtairlinesRegistrationsTable extends Component
                     'interest_one',
                     $this->career
                 )
-                ->orWhere(
-                    'interest_two',
-                    $this->career
-                );
-
+                    ->orWhere(
+                        'interest_two',
+                        $this->career
+                    );
             });
-
         }
 
 
@@ -507,34 +660,33 @@ class EtairlinesRegistrationsTable extends Component
             [
 
                 'registrations' =>
-                    $query
-                        ->latest()
-                        ->paginate(10),
+                $query
+                    ->latest()
+                    ->paginate(10),
 
                 'total' =>
-                    EtairlinesRegistration::count(),
+                EtairlinesRegistration::count(),
 
                 'withEmail' =>
-                    EtairlinesRegistration::whereNotNull('email')
-                        ->where('email', '!=', '')
-                        ->count(),
+                EtairlinesRegistration::whereNotNull('email')
+                    ->where('email', '!=', '')
+                    ->count(),
 
                 'emailsSent' =>
-                    EtairlinesRegistration::whereNotNull('email_sent_at')
-                        ->count(),
+                EtairlinesRegistration::whereNotNull('email_sent_at')
+                    ->count(),
 
                 'withEmailCount' =>
-                    EtairlinesRegistration::whereNotNull('email')
-                        ->where('email', '!=', '')
-                        ->count(),
+                EtairlinesRegistration::whereNotNull('email')
+                    ->where('email', '!=', '')
+                    ->count(),
 
                 'withoutEmailCount' =>
-                    EtairlinesRegistration::where(function ($q) {
+                EtairlinesRegistration::where(function ($q) {
 
-                        $q->whereNull('email')
-                            ->orWhere('email', '');
-
-                    })
+                    $q->whereNull('email')
+                        ->orWhere('email', '');
+                })
                     ->count(),
 
             ]

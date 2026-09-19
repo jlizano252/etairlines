@@ -19,6 +19,8 @@ class EtairlinesForm extends Component
     public string $phone = '';
 
     public string $email = '';
+    public string $email_confirmation = '';
+
     public string $interest_one = '';
     public string $interest_two = '';
 
@@ -195,6 +197,11 @@ class EtairlinesForm extends Component
                 'max:180',
             ],
 
+            'email_confirmation' => [
+                'required',
+                'same:email',
+            ],
+
             'interest_one' => [
                 'required',
                 'string',
@@ -244,6 +251,9 @@ class EtairlinesForm extends Component
             'interest_two.in' => 'La segunda carrera seleccionada no es válida.',
 
             'accepted.accepted' => 'Debe aceptar el uso de sus datos para continuar.',
+
+            'email_confirmation.required' => 'Confirme su correo electrónico.',
+            'email_confirmation.same' => 'Los correos electrónicos no coinciden.',
         ]);
 
         $registration = EtairlinesRegistration::create([
@@ -288,6 +298,7 @@ class EtairlinesForm extends Component
             'phone_local',
             'phone',
             'email',
+            'email_confirmation',
             'interest_one',
             'interest_two',
             'accepted',

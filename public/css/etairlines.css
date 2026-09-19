@@ -2925,6 +2925,335 @@
     transform: translateY(-1px);
 }
 
+/* =========================================================
+   ACCIONES REGISTROS ETAIRLINES
+   ========================================================= */
+
+.registration-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.registration-action-btn {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    background: #ffffff;
+    transition: all .2s ease;
+    cursor: pointer;
+}
+
+.registration-resend-btn {
+    color: var(--etai-blue);
+    border-color: rgba(1, 73, 141, .16);
+    background: rgba(1, 73, 141, .05);
+}
+
+.registration-resend-btn:hover {
+    color: #ffffff;
+    background: var(--etai-blue);
+    border-color: var(--etai-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(1, 73, 141, .16);
+}
+
+.registration-delete-btn {
+    color: #c83d4b;
+    border-color: rgba(220, 53, 69, .15);
+    background: rgba(220, 53, 69, .05);
+}
+
+.registration-delete-btn:hover {
+    color: #ffffff;
+    background: #dc3545;
+    border-color: #dc3545;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(220, 53, 69, .16);
+}
+
+.registration-action-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 575.98px) {
+
+    .registration-actions {
+        gap: 5px;
+    }
+
+    .registration-action-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+}
+
+/* =========================================================
+   MODAL REENVIAR CORREO ETAIRLINES
+   ========================================================= */
+
+.registration-resend-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(4, 35, 68, .55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.registration-resend-modal {
+    width: 100%;
+    max-width: 520px;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow:
+        0 25px 70px rgba(0, 45, 90, .25),
+        0 8px 25px rgba(0, 45, 90, .12);
+
+    animation: registrationResendModalIn .2s ease-out;
+}
+
+@keyframes registrationResendModalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.registration-resend-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.registration-resend-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 48px;
+    border-radius: 15px;
+    background: rgba(1, 73, 141, .08);
+    color: var(--etai-blue);
+    font-size: 1.2rem;
+}
+
+.registration-resend-title {
+    margin: 0;
+    color: var(--etai-blue);
+    font-size: 1.15rem;
+    font-weight: 950;
+}
+
+.registration-resend-subtitle {
+    margin: 3px 0 0;
+    color: #7b8794;
+    font-size: .78rem;
+}
+
+.registration-resend-close {
+    width: 36px;
+    height: 36px;
+    margin-left: auto;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f4f8;
+    color: #687789;
+    transition: .2s ease;
+}
+
+.registration-resend-close:hover {
+    background: rgba(1, 73, 141, .08);
+    color: var(--etai-blue);
+}
+
+.registration-resend-body {
+    padding: 22px;
+}
+
+.registration-resend-info {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #f7f9fb;
+    border: 1px solid #e8eef5;
+}
+
+.registration-resend-info small {
+    display: block;
+    margin-bottom: 4px;
+    color: #8492a6;
+    font-size: .72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.registration-resend-info strong {
+    display: block;
+    color: var(--etai-blue);
+    font-size: .92rem;
+    font-weight: 850;
+    word-break: break-word;
+}
+
+.registration-resend-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #344454;
+    font-size: .82rem;
+    font-weight: 850;
+}
+
+.registration-resend-input {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 14px;
+    border: 1px solid #e1e8f0;
+    border-radius: 14px;
+    outline: none;
+    color: #344454;
+    background: #ffffff;
+    transition: .2s ease;
+}
+
+.registration-resend-input:focus {
+    border-color: rgba(1, 73, 141, .35);
+    box-shadow: 0 0 0 4px rgba(1, 73, 141, .07);
+}
+
+.registration-resend-input.is-invalid {
+    border-color: #dc3545;
+}
+
+.registration-resend-error {
+    margin-top: 6px;
+    color: #c83d4b;
+    font-size: .74rem;
+    font-weight: 700;
+}
+
+.registration-resend-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 18px;
+    padding: 12px 15px;
+    border: 1px solid #f8d7da;
+    border-radius: 12px;
+    background: #fff5f5;
+    color: #842029;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.registration-resend-warning i {
+    margin-top: 2px;
+    color: #dc3545;
+}
+
+.registration-resend-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 22px;
+    border-top: 1px solid #edf1f5;
+    background: #fafcfe;
+}
+
+.registration-resend-cancel,
+.registration-resend-submit {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.registration-resend-cancel {
+    border: 1px solid #e1e7ee;
+    background: #f7f9fb;
+    color: #687789;
+}
+
+.registration-resend-cancel:hover {
+    background: #eef2f7;
+}
+
+.registration-resend-submit {
+    border: 1px solid var(--etai-blue);
+    background: var(--etai-blue);
+    color: #ffffff;
+}
+
+.registration-resend-submit:hover {
+    background: var(--etai-navy);
+    border-color: var(--etai-navy);
+    transform: translateY(-1px);
+}
+
+.registration-resend-submit:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 576px) {
+
+    .registration-resend-backdrop {
+        padding: 15px;
+    }
+
+    .registration-resend-modal {
+        max-width: 100%;
+        border-radius: 18px;
+    }
+
+    .registration-resend-header {
+        padding: 17px;
+    }
+
+    .registration-resend-body {
+        padding: 17px;
+    }
+
+    .registration-resend-footer {
+        flex-direction: column-reverse;
+        padding: 16px;
+    }
+
+    .registration-resend-cancel,
+    .registration-resend-submit {
+        width: 100%;
+    }
+
+}
 
 /* Responsive */
 

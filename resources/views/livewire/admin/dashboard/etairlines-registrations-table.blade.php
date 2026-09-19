@@ -327,6 +327,9 @@
                                 <th>Colegio</th>
                                 <th>Intereses</th>
                                 <th class="text-center">Estado</th>
+                                @if(auth()->user()->email === 'jlizano@iacsa.cr' || auth()->user()->email === 'acampos@iacsa.cr')
+                                <th>Acciones</th>
+                                @endif
                             </tr>
                         </thead>
 
@@ -368,18 +371,70 @@
                                 </td>
 
                                 <td class="text-center">
-                                    @if($r->email_sent_at)
+
+                                    @if($checkingRegistrationId === $r->id && $checkingRegistrationStatus)
+
+                                    <span
+                                        wire:poll.2s="checkRegistrationStatus"
+                                        class="badge rounded-pill bg-secondary px-3 py-2">
+                                        <i class="fas fa-spinner fa-spin me-1"></i>
+                                        Enviando...
+                                    </span>
+
+                                    @elseif($r->email_sent_at)
+
                                     <span class="badge rounded-pill bg-success px-3 py-2">
                                         <i class="fas fa-check-circle me-1"></i>
                                         Enviado
                                     </span>
+
                                     @else
+
                                     <span class="badge rounded-pill bg-secondary px-3 py-2">
                                         <i class="fas fa-clock me-1"></i>
                                         Pendiente
                                     </span>
+
                                     @endif
+
                                 </td>
+
+                                @if(in_array(auth()->user()->email, [
+                                'jlizano@iacsa.cr',
+                                'acampos@iacsa.cr',
+                                ], true))
+                                <td class="text-center">
+                                    <div class="registration-actions">
+
+                                        <button
+                                            type="button"
+                                            class="registration-action-btn registration-resend-btn"
+                                            title="Reenviar correo"
+                                            wire:click="openResendModal({{ $r->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="openResendModal({{ $r->id }})">
+
+                                            <span wire:loading.remove wire:target="openResendModal({{ $r->id }})">
+                                                <i class="fas fa-envelope"></i>
+                                            </span>
+
+                                            <span wire:loading wire:target="openResendModal({{ $r->id }})">
+                                                <i class="fas fa-spinner fa-spin"></i>
+                                            </span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="registration-action-btn registration-delete-btn"
+                                            title="Eliminar"
+                                            wire:click="confirmDelete({{ $r->id }})">
+
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+
+                                    </div>
+                                </td>
+                                @endif
                             </tr>
                             @empty
                             <tr>
@@ -402,7 +457,6 @@
     </div>
     {{-- ================= MODAL DE RECORDATORIO ================= --}}
     @if($showReminderModal)
-
     <div class="reminder-modal-wrapper">
 
         <div class="reminder-backdrop">
@@ -697,11 +751,6 @@
 
                 </div>
 
-
-
-
-
-
                 {{-- Footer --}}
                 <div class="reminder-footer">
 
@@ -756,6 +805,198 @@
 
 
     </div>
+    @endif
 
+    {{-- ================= MODAL DE REENVIO ================= --}}
+    @if($showResendModal)
+    <div class="registration-resend-backdrop">
+
+        <div class="registration-resend-modal">
+
+            <div class="registration-resend-header">
+
+                <div class="registration-resend-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
+                <div>
+                    <h4 class="registration-resend-title">
+                        Reenviar correo
+                    </h4>
+
+                    <p class="registration-resend-subtitle">
+                        Actualizar correo y enviar nuevamente
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="registration-resend-close"
+                    wire:click="closeResendModal">
+
+                    <i class="fas fa-times"></i>
+
+                </button>
+
+            </div>
+
+            <div class="registration-resend-body">
+
+                <div class="registration-resend-info">
+
+                    <small>Estudiante</small>
+
+                    <strong>
+                        {{ $resendRegistrationName }}
+                    </strong>
+
+                </div>
+
+                <div class="registration-resend-info">
+
+                    <small>Correo actual</small>
+
+                    <strong>
+                        {{ $resendCurrentEmail ?: 'Sin correo registrado' }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <label class="registration-resend-label">
+                        Nuevo correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        class="registration-resend-input @error('resendEmail') is-invalid @enderror"
+                        wire:model.defer="resendEmail"
+                        placeholder="correo@ejemplo.com">
+
+                    @error('resendEmail')
+                    <div class="registration-resend-error">
+                        {{ $message }}
+                    </div>
+                    @enderror
+
+                </div>
+
+                <div class="registration-resend-warning">
+
+                    <i class="fas fa-info-circle"></i>
+
+                    <span>
+                        El correo registrado será actualizado y el
+                        correo de ETAIRLINES se enviará nuevamente
+                        a la nueva dirección.
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="registration-resend-footer">
+
+                <button
+                    type="button"
+                    class="registration-resend-cancel"
+                    wire:click="closeResendModal">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    class="registration-resend-submit"
+                    wire:click="resendEmail"
+                    wire:loading.attr="disabled"
+                    wire:target="resendEmail">
+
+                    <span wire:loading.remove wire:target="resendEmail">
+                        <i class="fas fa-paper-plane me-1"></i>
+                        Reenviar correo
+                    </span>
+
+                    <span wire:loading wire:target="resendEmail">
+                        <i class="fas fa-spinner fa-spin me-1"></i>
+                        Enviando...
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    @endif
+
+    {{-- ================= MODAL DE ELIMINAR ================= --}}
+    @if($showDeleteModal)
+    <div class="users-delete-backdrop">
+
+        <div class="users-delete-modal">
+
+            <div class="users-delete-body">
+
+                <div class="users-delete-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+
+                <h4 class="users-delete-title">
+                    Eliminar registro
+                </h4>
+
+                <p class="users-delete-message">
+                    ¿Está seguro de que desea eliminar el registro de
+                    <strong>{{ $deleteRegistrationName }}</strong>?
+                </p>
+
+                <div class="users-delete-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+
+                    <span>
+                        Esta acción no se puede deshacer.
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="users-delete-footer">
+
+                <button
+                    type="button"
+                    class="users-cancel-btn"
+                    wire:click="closeDeleteModal">
+
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    class="users-confirm-delete-btn"
+                    wire:click="deleteRegistration"
+                    wire:loading.attr="disabled"
+                    wire:target="deleteRegistration">
+
+                    <span wire:loading.remove wire:target="deleteRegistration">
+                        <i class="fas fa-trash-alt me-1"></i>
+                        Eliminar registro
+                    </span>
+
+                    <span wire:loading wire:target="deleteRegistration">
+                        <i class="fas fa-spinner fa-spin me-1"></i>
+                        Eliminando...
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
     @endif
 </div>

@@ -314,6 +314,21 @@ $departure = "I Cuatrimestre {$year}";
                         </div>
 
                         <div class="form-group">
+                            <label class="form-label" for="email_confirmation">Confirmar correo electrónico</label>
+                            <input
+                                id="email_confirmation"
+                                type="email"
+                                wire:model.defer="email_confirmation"
+                                class="form-control rounded-4 @error('email_confirmation') is-invalid @enderror"
+                                placeholder="Repita su correo electrónico"
+                                autocomplete="email">
+
+                            @error('email_confirmation')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-label" for="interest_one">Carrera de interés 1</label>
                             <select
                                 id="interest_one"
